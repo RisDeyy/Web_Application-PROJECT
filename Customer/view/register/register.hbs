@@ -1,0 +1,64 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel='shortcut icon' type="image/png" href='/img/title/icon-shop.png' />
+  <title>Đăng Kí</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/css/style_register.css" />
+
+</head>
+
+<body style="background-image: url(/img/background/bg-signup.jpg); background-size: cover;">
+    <div class="register-form-container">
+      <form method="POST" action="/register" class="form-input-Inf">
+          <h1 class="title">Đăng Ký</h1>
+          {{#if error}}
+          {{! alert error }}
+            <div class="alert alert-danger">
+              {{error}}
+            </div>
+          {{/if}}
+
+          <div class="form-group">
+              <i class="fa fa-user"></i>
+              <input id="user-name" type="text" placeholder="Tên người dùng" class="input-Inf" required/>
+          </div>
+          <div class="form-group">
+              <i class="fa fa-envelope"></i>
+              <input id="user-email" type="text" placeholder="Email" class="input-Inf"required/>
+          </div>
+          <div class="form-group">
+              <label htmlFor="user-adress"><FontAwesomeIcon icon={faLocationDot} /></label>
+              <i class="fa fa-map"></i>
+              <input id="user-adress" type="text" placeholder="Địa chỉ" class="input-Inf"required/>
+          </div>
+          <div class="form-group">
+              <i class="fa fa-user"></i>
+              <input id="user-password" type="password" placeholder="Mật khẩu" class="input-Inf"required/>
+          </div>
+          <div class="form-group">
+              <i class="fa fa-user"></i>
+              <input id="user-repassword" type="password" placeholder="Xác nhận mật khẩu" class="input-Inf"required/>
+          </div>
+          <div>
+              <input type="submit" value="Đăng Ký" id="form-submit"/>
+          </div>
+          <p id="link">
+              Đã có tài khoản? 
+              <a href="/login"> Đăng nhập</a>.
+          </p>
+      </form>
+  </div>
+
+</body>
+
+</html>
