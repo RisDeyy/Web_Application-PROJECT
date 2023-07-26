@@ -19,7 +19,14 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-
+    <style>
+        .avatar {
+          vertical-align: middle;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      </style>
 </head>
 
 <body>
@@ -67,24 +74,30 @@
                 </ol>
             </nav>
             <!-- /Breadcrumb -->
-
             <div class="row gutters-sm align-items-stretch">
                 <div class="col-md-4 mb-3 align-self-auto">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle"
-                                    width="150">
+                                <label for="profilePicture">
+                                    <img src="tải xuống.jpg" class="rounded-circle" width="150" id="profileImage">
+                                </label>
+                                <input type="file" id="profilePicture" style="display: none" accept="image/*">
+                                <button onclick="chooseFromComputer()">Đổi avatar</button>
+                            
                                 <div class="mt-3">
                                     <h4>nghia</h4>
-
-                                    <p class="text-muted font-size-sm">điểm</p>
-
+                                    <p class="text-muted font-size-sm">
+                                        <div><p id="points"></p> Điểm</div>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <input type="file" id="profileImage" accept="image/*" style="display: none" />
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">

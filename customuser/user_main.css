@@ -47,3 +47,51 @@ body {
     color: #007bff; /* Change the color as desired */
     cursor: pointer;
 }
+
+#uploadMask {
+    width: 160px;
+    display: block;
+    float: left;
+    overflow: hidden;
+    height: 32px;
+    margin-right: 5px;
+    position: relative;
+  }
+  #uploadMask input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    z-index: 2;
+    cursor: pointer;
+  }
+  #uploadMask .button {
+    background: #ccc;
+    line-height: 24px;
+    padding: 5px 15px;
+    display: block;
+  }
+  #uploadOptions {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 3;
+  }
+  .uploadOption {
+    color: #fff;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  #profileImage {
+    width: 150px; /* Set the width to the desired size (in this case, 150px) */
+    height: 150px; /* Set the height to the desired size (in this case, 150px) */
+}
