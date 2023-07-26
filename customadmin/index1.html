@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu and Screen Transition Example</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <div class="menu">
+    <button onclick="changeScreen(1)">Screen 1</button>
+    <button onclick="changeScreen(2)">Screen 2</button>
+    <button onclick="changeScreen(3)">Screen 3</button>
+    <button onclick="changeScreen(4)">Screen 4</button>
+    <button onclick="changeScreen(5)">Screen 5</button>
+  </div>
+
+  <div class="screen" id="screen1">
+    <h1>Screen 1</h1>
+  </div>
+  <div class="screen hidden" id="screen2">
+    <h1>Screen 2</h1>
+  </div>
+  <div class="screen hidden" id="screen3">
+    <h1>Screen 3</h1>
+  </div>
+  <div class="screen hidden" id="screen4">
+    <h1>Screen 4</h1>
+  </div>
+  <div class="screen hidden" id="screen5">
+    <h1>Screen 5</h1>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
