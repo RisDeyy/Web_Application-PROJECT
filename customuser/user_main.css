@@ -42,3 +42,8 @@ body {
     color: #ff5733;
   }
   
+  .edit-icon {
+    margin-left: 5px;
+    color: #007bff; /* Change the color as desired */
+    cursor: pointer;
+}
