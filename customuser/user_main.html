@@ -1,0 +1,290 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel='shortcut icon' type="image/png" href='/img/title/icon-shop.png' />
+    <title>Tài khoản cá nhân</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
+
+    <!-- Main css -->
+    <!-- CSS only -->
+    <link rel="stylesheet" href="user_main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <style>
+        .avatar {
+          vertical-align: middle;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="header__top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__top__left">
+                        <ul>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__top__right align-right">
+                        <div class="header__top__right__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                        </div>
+                        <div class="header__top__right__auth align-right">
+                            <a href="/myaccount">
+                                <i class="fa fa-user" style="margin-left: 10px;"></i>
+                                Tài Khoản</a>
+                            <a href="/logout">
+                                <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                                Đăng Xuất</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="main-body">
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="main-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
+                </ol>
+            </nav>
+            <!-- /Breadcrumb -->
+            <div class="row gutters-sm align-items-stretch">
+                <div class="col-md-4 mb-3 align-self-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <label for="profilePicture">
+                                    <img src="tải xuống.jpg" class="rounded-circle" width="150" id="profileImage">
+                                </label>
+                                <input type="file" id="profilePicture" style="display: none" accept="image/*">
+                                <button onclick="chooseFromComputer()">Đổi avatar</button>
+                            
+                                <div class="mt-3">
+                                    <h4>nghia</h4>
+                                    <p class="text-muted font-size-sm">
+                                        <div><p id="points"></p> Điểm</div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="file" id="profileImage" accept="image/*" style="display: none" />
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Tên người dùng</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    nghia
+                                    <i class="fa fa-pencil-alt edit-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Số điện thoại</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    0798876074
+                                    <i class="fa fa-pencil-alt edit-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Địa Chỉ</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    ss
+                                    <i class="fa fa-pencil-alt edit-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              
+                                <div class="col-6">
+                                    <a class="btn btn-info " target="__blank" href="/myaccount/changePassword">Đổi Mật
+                                        Khẩu</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="product__details__tab">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class=" -item">
+                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Tất cả
+                        các đơn</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">Đang chờ xác
+                        nhận</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab" aria-selected="false">Đang giao
+                        hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab" aria-selected="false">Giao hàng thành công</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabs-5" role="tab" aria-selected="false">Đã hủy</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                    <div class="container-fluid mt-4">
+                        <div class="table-responsive" id="my-table">
+                            <table id="allCheckout" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th>Giỏ hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                    <div class="product__details__tab__desc">
+                        <div class="table-responsive" id="my-table">
+                            <table id="pending" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Giỏ hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                    <div class="product__details__tab__desc">
+                        <div class="table-responsive" id="my-table">
+                            <table id="delivering" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Giỏ hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tabs-4" role="tabpanel">
+                    <div class="product__details__tab__desc">
+                        <div class="table-responsive" id="my-table">
+                            <table id="delivered" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Giỏ hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tabs-5" role="tabpanel">
+                    <div class="product__details__tab__desc">
+                        <table id="cancel" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Giỏ hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Js Plugins -->
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.nice-select.min.js"></script>
+        <script src="/js/jquery-ui.min.js"></script>
+        <script src="/js/jquery.slicknav.js"></script>
+        <script src="/js/mixitup.min.js"></script>
+        <script src="/js/owl.carousel.min.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="user_main.js"></script>
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+            
+</body>
+
+</html>
