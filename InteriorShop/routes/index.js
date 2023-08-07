@@ -4,9 +4,6 @@ const userRouter = require("./user");
 
 function route(app) {
     app.use("/home", homeRouter);
-    app.get("/", function (req, res) {
-        res.redirect("/home");
-    });
 
     app.use("/shop-grid", productRouter);
 
@@ -17,6 +14,10 @@ function route(app) {
     });
     app.get("/shoping-cart", function (req, res) {
         res.render("shoping-cart/shoping-cart");
+    });
+
+    app.get("/post", function (req, res) {
+        res.render("post/post");
     });
     
     app.get("/contact", function (req, res) {

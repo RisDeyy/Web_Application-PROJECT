@@ -16,6 +16,11 @@
         </div>
     </div>
 </section>
+<section class="posting__area" id="posting__area">
+    <div class="col-lg-12 col-md-7 posting">
+        <p>Chia sẻ thiết kế của bạn ở đây....</p>
+    </div>
+</section>
 <section class="post__menu">
     <div>
         <div class="container">
@@ -44,25 +49,128 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row list-product">
-
-                        {{#each post}}
-                        <div class="col-lg-4 col-md-6 col-sm-6 item-post">
-                            <div class="post__item">
-                                <div class="post__item__pic set-bg" data-setbg="{{this.imagePost}}"></div>
-                                <div class="post__item__text">
-                                    <h5>{{user.name}}</h5>
-                                    <p>{{this.point}} điểm</p>
-                                    <p><i class="fa fa-calendar"> {{date}}</i></p>
-                                    <h6><a href="/post/{{this.url}}">{{this.title}}</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        {{/each}}
-
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-post-title" id="myModalLabel" >Tạo bài viết</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="infor__author">
+                    <div class="avatar"><img src="img/avatar.jpg" alt=""></div>
+                    <div class="infor__details">
+                        <div class="user__name">{{username}}Username</div>
+                        <div class="point">{{point}}<span>points<i class="fa fa-star"></i></span></div>
+                    </div>
+                </div>
+                <div class="post__content">
+                    <div class="post__title">
+                        <input type="text" name="post-title" id="post-title" class="input__title" placeholder="Tiêu đề bài viết" oninput="changeFontStyle(event)"></div>
+                    <div class="content">
+                        <div class="text__box" contenteditable="true" id="post-content"></div>
+                    </div>
+                    <div>
+                        <div class="insert-image">
+                            <label for="image-upload" class="custom-file-upload">
+                            Bạn sẽ thêm ảnh vào bài viết chứ? <i class="fa fa-image"></i>
+                            </label>
+                            <input type="file" id="image-upload" multiple>
+                        </div>
+                        <div id="image-preview" class="image-preview"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" id="posting" data-dismiss="modal" style="background-color:blue;">Đăng</button>
+                <button type="button" class="btn btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const postingArea = document.getElementById('posting__area');
+        postingArea.addEventListener('click', function () {
+            $('#myModal').modal('show');
+        });
+    });
+
+</script>
+
+<script>
+    $('post-btn').on('click', e =>{
+        e.preventDefault();
+        let idCategoryPost = $('input[name=idCategoryPost]').val();
+        let idPost = $('input[name=idPost]').val();
+        let Uername = $('input[name=Username]').val();
+        let points = $('input[name=points]').val();
+        let postTitle= $('input[name=title]').val();
+        let postContent = $('input[name=content]').val();
+        let imgs = $('input[name=images]').val();
+        console.log(idCategoryPost, idPost,Username, points titlePost, postContent, imgs);
+        $ajax({
+            url: `/api/post/post`,
+            method: 'POST',
+            data: {
+                idCategoryPost,
+                idPost,
+                postTitle,
+                Username,
+                points,
+                postContent
+            },
+            success: function(data){
+                console.log(data);
+                loadPosting(1);
+                $('input[name=title]').val("");
+                $('input[name=content]').val("");   
+            }
+        })
+    })
+</script>
+
+<script>
+    const textBox = document.getElementById('post-content');
+    textBox.addEventListener('input', function () {
+        textBox.style.height = 'auto'; 
+        textBox.style.height = `${textBox.scrollHeight}px`; 
+    });
+    function changeFontStyle(event) {
+        const input = event.target;
+        if (input.value !== "") {
+            input.classList.add("not-empty");
+        } else {
+            input.classList.remove("not-empty");
+        }
+    }
+</script>
+
+<script>
+    document.getElementById("image-upload").addEventListener("change", function(event) {
+    const imagePreview = document.getElementById("image-preview");
+    imagePreview.innerHTML = ""; 
+
+    const files = event.target.files;
+    for (const file of files) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+        const image = document.createElement("img");
+        image.src = e.target.result;
+        imagePreview.appendChild(image);
+        };
+        reader.readAsDataURL(file);
+    }
+    });
+
+</script>
+
+
