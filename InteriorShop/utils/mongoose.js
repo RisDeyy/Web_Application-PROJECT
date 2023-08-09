@@ -10,15 +10,15 @@ module.exports = {
     getListCategory: function (products) {
         var listCategory = [];
         products.forEach((element) => {
-            var check = true;
-            listCategory.forEach((category) => {
+          var check = true;
+          listCategory.forEach((category) => {
             if (element.category === category) {
                 check = false;
             }
-            });
-            if (check == true) {
+          });
+          if (check == true) {
             listCategory.push(element.category);
-            }
+          }
         });
         return listCategory;
     },

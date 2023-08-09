@@ -2,11 +2,12 @@ const Product = require("../models/Product");
 const Category = require("../models/Category");
 const utils = require("../utils/mongoose");
 const utilsPagination = require("../utils/pagination");
+const Rating = require("../models/Rating");
 const utilsAddUrlProduct = require("../utils/getUrlProduct");
 
-class ProductController {
-  //[Get] /
-  async index(req, res, next) {
+module.exports = {
+  //get
+  index: async(req, res, next) => {
     let perPage = 6,
       page = Math.max(parseInt(req.param("page")) || 1, 1);
     if (req.param("page") == null) {
@@ -36,8 +37,10 @@ class ProductController {
       page,
       sizePage
     );
+    
+    let latesProducts = await Product.find({});
+    latesProducts = latesProducts.slice(0, 3);
 
-    //let listProducts = await utilsAddUrlProduct.AddUrlProduct(products);
     res.render("shop-grid/shop-grid", {
       products: utils.mutipleMongooseToObject(products),
       size: size,
@@ -46,10 +49,11 @@ class ProductController {
       pagination: pagination,
       leftPage: leftPage,
       rightPage: rightPage,
+      latesProducts: utils.mutipleMongooseToObject(latesProducts),
     });
-  }
-  //[Get] /:idCategroy
-  async seachByCategory(req, res, next) {
+  },
+  // get:idCategroy
+  seachByCategory: async(req, res, next) => {
     let categoryChoose = await Category.findOne({
       idCategory: req.params.idCategory,
     });
@@ -89,7 +93,11 @@ class ProductController {
       "/shop-grid/" + req.params.idCategory,
       page
     );
-    //let listProducts = await utilsAddUrlProduct.AddUrlProduct(products);
+    
+    let latesProducts = await Product.find({
+      _id:{$in: categoryChoose.listIdProduct},
+    });
+    latesProducts = latesProducts.slice(0, 3);
 
     res.render("shop-grid/shop-grid", {
       products: utils.mutipleMongooseToObject(products),
@@ -101,10 +109,10 @@ class ProductController {
       leftPage: leftPage,
       rightPage: rightPage,
     });
-  }
+  },
 
-  //[Get] /:idCategroy/:idProduct
-  async getProduct(req, res, next) {
+  //get :idCategroy/:idProduct
+  getProduct: async(req, res, next) => {
     let { idCategory } = req.params;
     let { idProduct } = req.params;
 
@@ -134,7 +142,120 @@ class ProductController {
       relatedProduct: utils.mutipleMongooseToObject(relatedProduct),
       listCategory: utils.mutipleMongooseToObject(categories),
     });
-  }
-}
+  },
 
-module.exports = new ProductController();
+// module.exports = new ProductController();
+
+    searchProduct: async (req, res, next) => {
+    const name = req.param("name");
+    let flag = false;
+    let products = null;
+    let minPrice = 0;
+    let maxPrice = 0;
+    let size = 0;
+    let leftPage = 0;
+    let pagination = 0;
+    let rightPage = 0;
+    let sizePage = 0;
+
+    let perPage = 6,
+      page = Math.max(parseInt(req.param("page")) || 1, 1);
+    if (req.param("page") == null) {
+      page = 1;
+    }
+
+    if (req.query.minPrice && req.query.maxPrice) {
+      flag = true;
+      minPrice = req.query.minPrice;
+      maxPrice = req.query.maxPrice;
+    }
+    if (flag) {
+      products = await Product.find({
+        name: { $regex: name, $options: "i" },
+        price: { $gte: minPrice, $lte: maxPrice },
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+      size = await Product.count({
+        name: { $regex: name, $options: "i" },
+        price: { $gte: minPrice, $lte: maxPrice },
+      });
+      sizePage = Math.max(parseInt(size / perPage + 1));
+      leftPage = await utilsPagination.getLeftPageSearch(
+        "/shop-grid/search?name=" +
+          req.param("name") +
+          "&minPrice=" +
+          req.param("minPrice").replace(" ", "+") +
+          "&maxPrice=" +
+          req.param("maxPrice").replace(" ", "+"),
+        page,
+        sizePage
+      );
+      pagination = await utilsPagination.getPaginationSearch(
+        "/shop-grid/search?name=" +
+          req.param("name") +
+          "&minPrice=" +
+          req.param("minPrice").replace(" ", "+") +
+          "&maxPrice=" +
+          req.param("maxPrice").replace(" ", "+"),
+        page,
+        sizePage
+      );
+      rightPage = await utilsPagination.getRightPageSearch(
+        "/shop-grid/search?name=" +
+          req.param("name") +
+          "&minPrice=" +
+          req.param("minPrice").replace(" ", "+") +
+          "&maxPrice=" +
+          req.param("maxPrice").replace(" ", "+"),
+        page,
+        sizePage
+      );
+    } else {
+      products = await Product.find({
+        name: { $regex: name, $options: "i" },
+      })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+      size = await Product.count({
+        name: { $regex: name, $options: "i" },
+      });
+      sizePage = Math.max(parseInt(size / perPage + 1));
+      leftPage = await utilsPagination.getLeftPageSearch(
+        "/shop-grid/search?name=" + req.param("name"),
+        page,
+        sizePage
+      );
+      pagination = await utilsPagination.getPaginationSearch(
+        "/shop-grid/search?name=" + req.param("name"),
+        page,
+        sizePage
+      );
+      rightPage = await utilsPagination.getRightPageSearch(
+        "/shop-grid/search?name=" + req.param("name"),
+        page,
+        sizePage
+      );
+    }
+
+    const categories = await Category.find({});
+
+    let latestProducts = await Product.find({
+      name: { $regex: name, $options: "i" },
+    });
+    latestProducts = latestProducts.slice(0, 3);
+
+    res.render("shop-grid/shop-grid", {
+      products: utils.mutipleMongooseToObject(products),
+      size: size,
+      category: utils.mutipleMongooseToObject(categories),
+      name,
+      latestProducts: utils.mutipleMongooseToObject(latestProducts),
+      pagination: pagination,
+      leftPage: leftPage,
+      rightPage: rightPage,
+      minPrice,
+      maxPrice,
+    });
+  },
+};

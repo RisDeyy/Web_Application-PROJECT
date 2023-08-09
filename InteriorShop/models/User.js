@@ -7,6 +7,8 @@ const User = new Schema(
     password: { type: String, maxlength: 255 },
     name: { type: String, maxlength: 255 },
     address: { type: String, maxlength: 255 },
+    idShoppingCart: { type: Schema.Types.ObjectId },
+    listIdShoppingCartHistory: [{ type: Schema.Types.ObjectId }],
     status: Boolean,
   },
   { collection: "user" }

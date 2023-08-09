@@ -13,6 +13,8 @@ const db = require("./utils/db");
 db.connectMongoose();
 
 const app = express();
+const sessionHandler = require("./middlewares/sessionHandler");
+const logger = require("./middlewares/logger");
 
 const hbs = exphbs.create({
     extname: "hbs",
@@ -112,6 +114,9 @@ app.use(function (req, res, next) {
 
     next();
 });
+
+app.use(sessionHandler);
+app.use(logger);
 
 route(app);
 

@@ -1,6 +1,6 @@
 const passport = require("passport"),
-  LocalStrategy = require("passport-local").Strategy;
-  const bcrypt = require("bcryptjs");
+LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 
@@ -15,21 +15,32 @@ passport.use(
       try {
         const user = await User.findOne({ email: username }).lean();
         if (!user) {
-          return done(null, false, { message: "Incorrect email." });
+          return done(null, false, { 
+            message: "Incorrect email." 
+          });
         }
         if (!validPassword(user, password)) {
-          return done(null, false, { message: "Incorrect password." });
+          return done(null, false, { 
+            message: "Incorrect password!" 
+          });
+        } 
+        if(user.status == false){
+          return done(null, false, {
+            message:"Account was ban!"
+          });
         }
-        return done(null, user);
-      } catch (err) {
+        return done (null, user);
+      }catch (err){
         return done(err);
       }
     }
   )
 );
+
 function validPassword(user, password) {
   return bcrypt.compareSync(password, user.password);
 }
+
 passport.serializeUser(function (user, done) {
   done(null, {
     email: user.email,
@@ -38,6 +49,7 @@ passport.serializeUser(function (user, done) {
     id: user._id,
   });
 });
+
 passport.deserializeUser(function (user, done) {
   // User.findOne({ email: id }, function (err, user) {
   //   done(err, user);
