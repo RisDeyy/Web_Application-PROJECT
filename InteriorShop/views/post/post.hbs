@@ -73,7 +73,7 @@
                 </div>
                 <div class="post__content">
                     <div class="post__title">
-                        <input type="text" name="post-title" id="post-title" class="input__title" placeholder="Tiêu đề bài viết" oninput="changeFontStyle(event)"></div>
+                        <input type="text" name="post-title" id="post-title" class="input__title" placeholder="Tiêu đề bài viết" oninput="changeFontStyle(event)" required/></div>
                     <div class="content">
                         <div class="text__box" contenteditable="true" id="post-content"></div>
                     </div>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" id="posting" data-dismiss="modal" style="background-color:blue;">Đăng</button>
+                <button class="btn btn-secondary" id="posting" data-dismiss="modal" style="background-color:blue;">Đăng</button>
                 <button type="button" class="btn btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
             </div>
         </div>
