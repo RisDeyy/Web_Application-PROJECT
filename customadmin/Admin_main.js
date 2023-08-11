@@ -1,17 +1,21 @@
 const openBtn = document.getElementById('openBtn');
 const closeBtn = document.getElementById('closeBtn');
 const offcanvas = document.getElementById('of1');
+const content = document.getElementById('content');
 
+  // Xử lý sự kiện khi nhấp vào nút "Open"
+  openBtn.addEventListener('click', () => {
+    
+    offcanvas.classList.add('active');
+    content.classList.add('active');
+  });
 
-openBtn.addEventListener('click', () => {
-  offcanvas.style.left = '0';
- 
-});
+  // Xử lý sự kiện khi nhấp vào nút "Close"
+  closeBtn.addEventListener('click', () => {
+    offcanvas.classList.remove('active');
+    content.classList.remove('active');
+  });
 
-closeBtn.addEventListener('click', () => {
-  offcanvas.style.left = '-100%';
- 
-});
 const borderChangeElement = document.querySelector('.menu-toggle');
 const closedBox = document.querySelector('.closeBtn');
 

@@ -107,8 +107,9 @@ width: 50px;
 
 .flexbox{
   display: flex;
-
+  position: relative;
 }
+
 #of.transitioned {
   width: 0;
   
@@ -119,17 +120,21 @@ width: 50px;
  }
  
 .content{
+  background-color: red;
   display: flex;
  flex-direction: row;
  align-items: center;
  
-       
+ flex: 1;
   width: calc(100%); 
   padding: 20px;
- 
+ height: 900px;
   
-  transition: left 0.3s ease-in-out;
+  transition: margin-left 0.4s ease-out;
 
+}
+.content.active {
+  margin-left: 250px;
 }
 .contenttext{
   bottom: 4em;
@@ -179,17 +184,22 @@ direction: row;
 }
 .of1 {
  
-  position:relative;
+  position: absolute;
   
-  left: -350px; 
+  left: -100%;
   width: 250px;
  
   margin: 0;
   padding: 0;
   padding: 20px;
   
-  transition: left 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 999;
+  transition: left 0.4s ease-out;
   background-color: #333;
+}
+.of1.active {
+  left: 0;
 }
 .closeBtn{ background-color: #333;
   margin-left: 5.5em;
@@ -263,7 +273,12 @@ width: 50px;
 #notification-button{
   position: relative;
   top: 6px;
-  left:2px
+  left:2px;
+  
+  
+}
+.hidden {
+  visibility: hidden;
 }
 #notification-count {
  
