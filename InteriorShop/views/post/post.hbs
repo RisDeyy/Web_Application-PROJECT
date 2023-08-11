@@ -47,6 +47,52 @@
                                     <h6><span>{{sizeOfpost}}</span> bài viết được tìm thấy</h6>
                                 </div>
                             </div>
+                            <section class="col-lg-12 test__post">
+                                <div class="Show__Post__List">
+                                    <div class="post-item" id="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_8.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                    <div class="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_1.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                    <div class="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_2.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                    <div class="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_3.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                    <div class="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_5.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                    <div class="post-item">
+                                        <div class="post-set-bg" style="background-image: url('/img/product_6.jpg');"></div>
+                                        <div class="show-post-content">
+                                            <div>Username</div>
+                                            <div>Post title</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -58,7 +104,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-post-title" id="myModalLabel" >Tạo bài viết</h6>
+                <h6 class="modal-post-title" id="myModalLabel" >Tạo bài chia sẻ</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -67,8 +113,8 @@
                 <div class="infor__author">
                     <div class="avatar"><img src="img/avatar.jpg" alt=""></div>
                     <div class="infor__details">
-                        <div class="user__name">{{username}}Username</div>
-                        <div class="point">{{point}}<span>points<i class="fa fa-star"></i></span></div>
+                        <div class="user__name">{{user.name}}Username</div>
+                        <div class="point">{{user.point}}<span>points<i class="fa fa-star"></i></span></div>
                     </div>
                 </div>
                 <div class="post__content">
@@ -77,6 +123,18 @@
                     <div class="content">
                         <div class="text__box" contenteditable="true" id="post-content"></div>
                     </div>
+                    <div class="choose__Post__Category">
+                        <div class="form__Post__Category">
+                            <label for="" class="form-label">Chọn Danh Mục</label>
+                            <br>
+                            <select>
+                                <option class="">Hello các con vợ</option>
+                                <option value="">HiHihihiiiihih</option>
+                                <option value="">Anh rất chào emmm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
                     <div>
                         <div class="insert-image">
                             <label for="image-upload" class="custom-file-upload">
@@ -96,11 +154,79 @@
     </div>
 </div>
 
+<!-- when click to each -->
+<!-- Bootstrap Post Details Modal -->
+<div class="modal fade" id="myPostDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-post-title" id="myModalLabel" >Bài viết của {{user.name}}</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="infor__author">
+                    <div class="avatar"><img src="img/avatar.jpg" alt=""></div>
+                    <div class="infor__details">
+                        <div class="user__name">{{user.name}}Username</div>
+                        <div class="point">{{user.point}}<span>points<i class="fa fa-star"></i></span></div>
+                        <div class="date">{{date}}Ngày chờ Tháng nhớ Năm mong</div>
+                    </div>
+                </div>
+                <div class="post__content">
+                    <div class="post__title">
+                        <input type="text" name="post-title" id="post-title" class="input__title" placeholder="Tiêu đề bài viết" oninput="changeFontStyle(event)" required/></div>
+                    <div class="content">
+                        <div class="text__box" contenteditable="true" id="post-content"></div>
+                    </div>
+                    <div class="choose__Post__Category">
+                        <div class="form__Post__Category">
+                            <label for="" class="form-label">Chọn Danh Mục</label>
+                            <br>
+                            <select>
+                                <option class="">Hello các con vợ</option>
+                                <option value="">HiHihihiiiihih</option>
+                                <option value="">Anh rất chào emmm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <div class="insert-image">
+                            <label for="image-upload" class="custom-file-upload">
+                            Bạn sẽ thêm ảnh vào bài viết chứ? <i class="fa fa-image"></i>
+                            </label>
+                            <input type="file" id="image-upload" multiple>
+                        </div>
+                        <div id="image-preview" class="image-preview"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-closed-PostDetails btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const postingArea = document.getElementById('posting__area');
         postingArea.addEventListener('click', function () {
             $('#myModal').modal('show');
+        });
+    });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const postingArea = document.getElementById('post-item');
+        postingArea.addEventListener('click', function () {
+            $('#myPostDetails').modal('show');
         });
     });
 
