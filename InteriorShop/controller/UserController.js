@@ -138,7 +138,7 @@ module.exports = {
       address: req.body.address,
       status: false,
     });
-    
+
     newUser.save((err) => {
       if (err) return next(err);const id = newUser._id;
       const status = newUser.status;
