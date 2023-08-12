@@ -1,7 +1,9 @@
+const jwt = require("jsonwebtoken");
 const passport = require("../middlewares/partport");
 const utils = require("../utils/mongoose");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const SendmailController = require("../controller/SendmailController");
 
 module.exports = {
   getLogin: (req, res, next) => {
@@ -18,6 +20,7 @@ module.exports = {
     req.logout();
     res.redirect("/home");
   },
+
   getRegister: (req, res, next) => {
     if (req.user) {
       return res.redirect("/home");
@@ -38,6 +41,7 @@ module.exports = {
         error: "Email đã tồn tại",
       });
     }
+    const { name, email, password } = req.body;
     const hash = bcrypt.hashSync(req.body.password, 10);
     const newUser = new User({
       email: req.body.email,
@@ -47,10 +51,36 @@ module.exports = {
       status: true,
     });
     newUser.save((err) => {
-      if (err) return next(err);
-      res.redirect("/login");
+      if (err) return next(err);const id = newUser._id;
+      const status = newUser.status;
+      const token = jwt.sign(
+        { id, name, email, password, status },
+        process.env.JWT_ACC_ACTIVATE,
+        { expiresIn: "15m" }
+      );
+
+      const result = SendmailController.sendMail(
+        req.body.email,
+        "ĐĂNG KÝ TÀI KHOẢN THÀNH CÔNG! XÁC NHẬN EMAIL ĐĂNG KÝ",
+        "Chúc mừng bạn đã đăng ký thành công trên Changcannang! Bạn vui lòng xác nhận email đăng ký bằng cách nhấn vào đường link sau:" +
+          "<br>" +
+          "<p>" +
+          `${req.protocol}://${req.get("host")}/email-activate/${token}` +
+          "<p>" +
+          "<br>" +
+          `Email: ${req.body.email}` +
+          "<br>" +
+          `Mật khẩu: ${req.body.password}`
+      );   
+
+      res.render("login/login", {
+        layout: false,
+        message:
+          "Đăng ký tài khoản thành công, check mail để xem thông tin tài khoản và xác nhận tài khoản.",
+      });   
     });
   },
+  
   async getMyAccount(req, res, next) {
     if (req.user == null) {
       res.redirect("/login");
