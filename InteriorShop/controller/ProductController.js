@@ -79,19 +79,23 @@ module.exports = {
       _id: { $in: categoryChoose.listIdProduct },
     });
 
+    let sizePage = Math.max(parseInt(size / perPage + 1));
     let categories = await Category.find({});
 
     let leftPage = await utilsPagination.getLeftPage(
       "/shop-grid/" + req.params.idCategory,
-      page
+      page,
+      sizePage
     );
     let pagination = await utilsPagination.getPagination(
       "/shop-grid/" + req.params.idCategory,
-      page
+      page,
+      sizePage
     );
     let rightPage = await utilsPagination.getRightPage(
       "/shop-grid/" + req.params.idCategory,
-      page
+      page,
+      sizePage
     );
     
     let latesProducts = await Product.find({
@@ -108,6 +112,7 @@ module.exports = {
       pagination: pagination,
       leftPage: leftPage,
       rightPage: rightPage,
+      latestProducts: utils.mutipleMongooseToObject(latestProducts),
     });
   },
 

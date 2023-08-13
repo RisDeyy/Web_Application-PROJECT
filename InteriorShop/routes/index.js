@@ -1,6 +1,7 @@
 const productRouter = require("./product");
 const homeRouter = require("./home");
 const userRouter = require("./user");
+const checkOutRouter = require("./checkOut");
 
 function route(app) {
   app.use("/home", homeRouter);
@@ -24,6 +25,8 @@ function route(app) {
   app.get("/contact", function (req, res) {
     res.render("contact/contact");
   });
+
+  app.use("/checkout", checkOutRouter);
   
 }
 

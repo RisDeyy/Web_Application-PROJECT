@@ -47,6 +47,7 @@ passport.serializeUser(function (user, done) {
     name: user.name,
     address: user.address,
     id: user._id,
+    status: user.status,
   });
 });
 

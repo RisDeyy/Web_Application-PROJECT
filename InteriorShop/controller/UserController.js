@@ -6,6 +6,8 @@ const User = require("../models/User");
 const SendmailController = require("../controller/SendmailController");
 const Session = require("../models/Session");
 const ShoppingCart = require("../models/ShoppingCart");
+const CheckOut = require("../models/CheckOut");
+const ProductOrder = require("../models/ProductOrder");
 
 module.exports = {
   getLogin: (req, res, next) => {
@@ -72,13 +74,15 @@ module.exports = {
             if (error) {
               console.log(error);
             } else {
-              console.log("email verification successful");
+              console.log("Email verification successful");
             }
           });
         }
       );
 
-      res.json({ mesage: "Sign up success!" });
+      res.json({ 
+        mesage: "Sign up success!" 
+      });
     } else {
       return res.json({ error: "Something went wrong!" });
     }
@@ -114,7 +118,6 @@ module.exports = {
     }
   },
 
-
   postRegister: async (req, res, next) => {
     if (req.body.password !== req.body.re_password) {
       return res.render("register/register", {
@@ -140,7 +143,9 @@ module.exports = {
     });
 
     newUser.save((err) => {
-      if (err) return next(err);const id = newUser._id;
+      if (err) return next(err);
+      //Gửi mail
+      const id = newUser._id;
       const status = newUser.status;
       const token = jwt.sign(
         { id, name, email, password, status },
@@ -176,12 +181,64 @@ module.exports = {
       return;
     }
     const user = await User.findOne({ email: req.user.email });
+    let checkOutUserAll = await CheckOut.find({
+      email: req.user.email,
+    }).lean();
+
+    for (let i = 0; i < checkOutUserAll.length; i++) {
+      const shoppingCartUser = await ShoppingCart.findById(
+        checkOutUserAll[i].idShoppingCart
+      ).lean();
+      checkOutUserAll[i].listProductOrder = [];
+
+      let sum = 0;
+      for (let j = 0; j < shoppingCartUser.listProductOrder.length; j++) {
+        const productOrder = await ProductOrder.findById(
+          shoppingCartUser.listProductOrder[j]
+        ).lean();
+
+        sum += productOrder.unitPrice * productOrder.quantity;
+        checkOutUserAll[i].listProductOrder.push(productOrder);
+      }
+      checkOutUserAll[i].total = sum;
+    }
+    let checkOutPending = [];
+    checkOutUserAll.map((item) => {
+      if (item.status == "Pending") {
+        checkOutPending.push(item);
+      }
+    });
+    let checkOutDelivering = [];
+    checkOutUserAll.map((item) => {
+      if (item.status == "Delivering") {
+        checkOutDelivering.push(item);
+      }
+    });
+    let checkOutDelivered = [];
+    checkOutUserAll.map((item) => {
+      if (item.status == "Delivered") {
+        checkOutDelivered.push(item);
+      }
+    });
+    let checkOutCanceled = [];
+    checkOutUserAll.map((item) => {
+      if (item.status == "Canceled") {
+        checkOutCanceled.push(item);
+      }
+    });
+
     res.render("my-account/my-account", {
       layout: false,
       user: utils.mongooseToObject(user),
+      checkOutUserAll: checkOutUserAll,
+      checkOutPending: checkOutPending,
+      checkOutDelivering: checkOutDelivering,
+      checkOutDelivered: checkOutDelivered,
+      checkOutCanceled: checkOutCanceled,
     });
   },
-  async getMyAccountEdit(req, res, next) {
+
+  getMyAccountEdit: async(req, res, next) => {
     if (req.user == null) {
       res.redirect("/login");
       return;
@@ -190,7 +247,8 @@ module.exports = {
       layout: false,
     });
   },
-  async postMyAccountEdit(req, res, next) {
+
+  postMyAccountEdit: async(req, res, next) => {
     const user = await User.findOne({ email: req.body.email }).lean();
     if (user && user.email !== req.user.email) {
       return res.render("my-account/edit-account", {
@@ -198,18 +256,7 @@ module.exports = {
         error: "Email đã tồn tại",
       });
     }
-    if (!req.body.name) {
-      return res.render("my-account/edit-account", {
-        layout: false,
-        error: "Tên không được để trống",
-      });
-    }
-    if (!req.body.address) {
-      return res.render("my-account/edit-account", {
-        layout: false,
-        error: "Địa chỉ không được để trống",
-      });
-    }
+
     await User.findByIdAndUpdate(req.user.id, {
       name: req.body.name,
       email: req.body.email,
@@ -226,7 +273,8 @@ module.exports = {
         res.render("errors/404");
       });
   },
-  getChangePassword(req, res, next) {
+
+  getChangePassword: (req, res, next) => {
     if (req.user == null) {
       res.redirect("/login");
       return;
@@ -241,25 +289,19 @@ module.exports = {
     const password = req.body.oldPassword;
     const newPassword = req.body.newPassword;
     const reNewPassword = req.body.re_password;
+    const user = await User.findById(req.user.id);
     if (!password || !newPassword || !reNewPassword) {
       res.render("my-account/change-password", {
         layout: false,
-        error: "Ô dữ liệu không được để trống!!",
+        error: "Sai mật khẩu!!",
       });
       return;
     }
-    const user = await User.findById(req.user.id);
-    if (!bcrypt.compareSync(password, user.password)) {
-      res.render("my-account/change-password", {
-        layout: false,
-        error: "Mật khẩu không đúng!!",
-      });
-      return;
-    }
+
     if (reNewPassword !== newPassword) {
       res.render("my-account/change-password", {
         layout: false,
-        error: "Nhập lại mật khẩu sai !!",
+        error: "Mật khẩu nhập lại sai !!",
       });
       return;
     }
@@ -273,4 +315,98 @@ module.exports = {
         res.render("errors/404");
       });
   },
+
+  getForgotPassword: (req, res, next) => {
+    res.render("forgot-password/forgot-password", { layout: false });
+  },
+  postForgotPassword: async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email }).lean();
+    if (!user) {
+      return res.render("forgot-password/forgot-password", {
+        layout: false,
+        error: "Email không tồn tại",
+      });
+    }
+
+    const result = SendmailController.sendMail(
+      req.body.email,
+      "Lấy lại mật khẩu",
+      `Click vào link sau để đặt lại mật khẩu: ${req.protocol}://${req.get(
+        "host"
+      )}/reset-password/${user._id}`
+    );
+
+    res.render("forgot-password/forgot-password", {
+      layout: false,
+      message: "Vui lòng check mail để đặt lại mật khẩu",
+    });
+  },
+  getResetPassword: async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.render("errors/404");
+      return;
+    }
+
+    res.render("forgot-password/reset-password", {
+      layout: false,
+      id: req.params.id,
+    });
+  },
+  postResetPassword: async (req, res, next) => {
+    const user = await User.findById(req.body.id);
+    if (!user) {
+      return res.render("errors/404");
+    }
+
+    if (req.body.password !== req.body.confirm_password) {
+      return res.render("forgot-password/reset-password", {
+        layout: false,
+        id: req.body.id,
+        error: "Mật khẩu không khớp!",
+      });
+    }
+
+    const hash = bcrypt.hashSync(req.body.password, 10);
+    User.findByIdAndUpdate(req.body.id, { password: hash })
+      .then(() => {
+        return res.redirect("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.render("errors/404", { layout: false });
+      });
+  },
+  getCancelCheckOut: async (req, res) => {
+    if (!req.user) {
+      res.redirect("/login");
+      return;
+    }
+    const { idCheckOut } = req.params;
+    try {
+      await CheckOut.findByIdAndUpdate(idCheckOut, {
+        status: "Canceled",
+      });
+      return res.redirect("/myaccount");
+    } catch (error) {
+      return res.redirect("/myaccount?error=errorCheckOut");
+    }
+  },
+  getConfirmCheckOut: async (req, res) => {
+    if (!req.user) {
+      res.redirect("/login");
+      return;
+    }
+    const { idCheckOut } = req.params;
+    try {
+      await CheckOut.findByIdAndUpdate(idCheckOut, {
+        status: "Delivered",
+      });
+      return res.redirect("/myaccount");
+    } catch (error) {
+      return res.redirect("/myaccount?error=errorCheckOut");
+    }
+  },
 };
+
+

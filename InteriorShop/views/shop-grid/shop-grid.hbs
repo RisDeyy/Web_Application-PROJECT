@@ -82,7 +82,7 @@
                                     {{/each}}
 
                                 </div>
-                                <div class="latest-prdouct__slider__item">
+                                {{!-- <div class="latest-prdouct__slider__item">
                                     {{#each latestProducts }}
                                     <a href="/shop-grid/{{this.url}}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
@@ -94,7 +94,7 @@
                                         </div>
                                     </a>
                                     {{/each}}
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                         {{#each products}}
                         <div class="col-lg-4 col-md-6 col-sm-6 item-product">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{this.image}}">
+                                <div class="product__item__pic set-bg" data-setbg="/img/product_1">
                                     <ul class="product__item__pic__hover">
                                         <li style="cursor: pointer;"><a id="addCart-{{this.idProduct}}"
                                                 onclick="addShoppingCart('{{this.idProduct}}')"
@@ -169,7 +169,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="/shop-grid/{{this.url}}">{{this.name}}</a></h6>
+                                    <h6><a href="/shop-grid/{{this.url}}">bàn ghế nội thất</a></h6>
                                     <h5 id="price-{{@index}}">{{format this.price}}</h5>
                                 </div>
                             </div>
