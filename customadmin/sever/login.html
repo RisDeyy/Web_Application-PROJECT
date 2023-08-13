@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page with Dynamic Content</title>
+</head>
+<body>
+    <div id="content-box">
+        <!-- Nội dung box sẽ được cập nhật tại đây -->
+        <h2>Initial Content</h2>
+        <p>This is the initial content of the box.</p>
+    </div>
+
+    <button id="change-box-btn">Chuyển đổi nội dung box</button>
+
+    <script>
+        document.getElementById('change-box-btn').addEventListener('click', () => {
+            // Gửi yêu cầu tới server để lấy nội dung của box cần thay đổi
+            fetch('/get-box-content')
+                .then(response => response.text())
+                .then(data => {
+                    // Cập nhật nội dung của box với nội dung nhận được từ server
+                    document.getElementById('content-box').innerHTML = data;
+                })
+                .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>

@@ -24,6 +24,7 @@ function showNotification() {
     }
     notificationVisible = !notificationVisible;
     count= 0;
+    notificationCount.classList.add('hidden');
     updateNotificationCount();
 }
 function updateNotificationCount() {
@@ -37,7 +38,8 @@ function addNotification(message) {
     li.textContent = message;
     notificationList.appendChild(li);
     count++;
-    notificationCount.textContent = count;}
+    notificationCount.textContent = count;
+    notificationCount.classList.remove('hidden');}
     else{
         const li = document.createElement('li');
         li.textContent = message;
@@ -48,7 +50,7 @@ function addNotification(message) {
     }
 }
 
-    
+
 // Thêm các thông báo mới
 addNotification('Thông báo 1: Có phiên bản mới của ứng dụng.');
 addNotification('Thông báo 2: Cuộc họp vào lúc 3:00 PM ngày mai.');
@@ -56,10 +58,9 @@ addNotification('Thông báo 3: Chúc mừng bạn đã đạt được 1000 ng�
 
 // Bạn có thể gọi hàm addNotification(message) với các thông báo mới khác.
 setTimeout(() => {
-    addNotification('Thông báo 1: Có phiên bản mới của ứng dụng.');
+    addNotification('Thông báo 4: Đã thêm thông báo mới.');
 }, 2000);
 
-
-setTimeout(() => {''
-    addNotification();
+setTimeout(() => {
+    addNotification('Thông báo 5: Đã thêm thông báo mới.');
 }, 5000);
