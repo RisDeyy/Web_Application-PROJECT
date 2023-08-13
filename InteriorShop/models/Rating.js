@@ -7,6 +7,7 @@ const Rating = new Schema(
     rating: { type: Schema.Types.Number },
     content: { type: String, maxLength: 255 },
   },
+
   { collection: "rating" }
 );
 

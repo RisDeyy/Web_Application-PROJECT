@@ -14,6 +14,7 @@ const Product = new Schema(
     listImgExtra: [],
     listIdRating: [],
   },
+
   { collection: "product" }
 );
 

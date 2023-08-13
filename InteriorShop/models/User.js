@@ -11,6 +11,7 @@ const User = new Schema(
     listIdShoppingCartHistory: [{ type: Schema.Types.ObjectId }],
     status: Boolean,
   },
+
   { collection: "user" }
 );
 

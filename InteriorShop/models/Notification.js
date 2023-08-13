@@ -7,6 +7,9 @@ const NotificationSchema = new Schema(
         time: { type: Schema.Types.Date },
         seen: { type: Schema.Types.Boolean, default: false },
     },
+    
+    { timestamps: true },
+
     {
         collection: "notification",
     }

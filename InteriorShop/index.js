@@ -15,6 +15,10 @@ db.connectMongoose();
 const app = express();
 const sessionHandler = require("./middlewares/sessionHandler");
 const logger = require("./middlewares/logger");
+const userShoppingCart = require("./middlewares/userShoppingCart");
+
+const apiProductRouter = require("./api/product");
+const apiShoppingCartRouter = require("./api/shopping-cart");
 
 const hbs = exphbs.create({
     extname: "hbs",
@@ -117,7 +121,10 @@ app.use(function (req, res, next) {
 
 app.use(sessionHandler);
 app.use(logger);
+app.use("/api/product", apiProductRouter);
+app.use("/api/shoppingCart", apiShoppingCartRouter);
 
+app.use(userShoppingCart);
 route(app);
 
 app.use((req, res) => {

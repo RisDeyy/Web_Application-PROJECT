@@ -49,7 +49,6 @@ module.exports = {
       });
     }
   },
-
   getRegister: (req, res, next) => {
     if (req.user) {
       return res.redirect("/home");
@@ -81,7 +80,7 @@ module.exports = {
       );
 
       res.json({ 
-        mesage: "Sign up success!" 
+        message: "Sign up success!",
       });
     } else {
       return res.json({ error: "Something went wrong!" });
@@ -112,7 +111,9 @@ module.exports = {
         }
       );
 
-      res.json({ mesage: "Sign up success!" });
+      res.json({ 
+        mesage: "Sign up success!", 
+      });
     } else {
       return res.json({ error: "Something went wrong!" });
     }

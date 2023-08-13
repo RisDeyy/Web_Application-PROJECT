@@ -176,7 +176,7 @@
                 </div>
                 <div class="post__content">
                     <div class="post__title">
-                        <input type="text" name="post-title" id="post-title" class="input__title" placeholder="Tiêu đề bài viết" oninput="changeFontStyle(event)" required/></div>
+                        Tiêu đề: {{postTitle}} </div>
                     <div class="content">
                         <div class="text__box" contenteditable="true" id="post-content"></div>
                     </div>
@@ -287,16 +287,18 @@
 
     const files = event.target.files;
     for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-        const image = document.createElement("img");
-        image.src = e.target.result;
-        imagePreview.appendChild(image);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+            const image = document.createElement("img");
+            image.src = e.target.result;
+            imagePreview.appendChild(image);
         };
         reader.readAsDataURL(file);
     }
     });
 
 </script>
+
+
 
 

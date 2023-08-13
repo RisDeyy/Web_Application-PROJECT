@@ -27,7 +27,6 @@ function route(app) {
   });
 
   app.use("/checkout", checkOutRouter);
-  
 }
 
 module.exports = route;

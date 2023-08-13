@@ -8,6 +8,7 @@ const Category = new Schema(
     image: String,
     idCategory: { type: String, maxlength: 255 },
   },
+  
   { collection: "category" }
 );
 

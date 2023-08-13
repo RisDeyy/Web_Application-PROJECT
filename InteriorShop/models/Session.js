@@ -6,6 +6,7 @@ const Session = new Schema(
     idUser: { type: String, maxlength: 255 },
     idShoppingCart: { type: Schema.Types.ObjectId },
   },
+
   { collection: "session" }
 );
 
