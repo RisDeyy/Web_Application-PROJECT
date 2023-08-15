@@ -10,7 +10,7 @@ const UserSchema = new Schema(
     idShoppingCart: { type: Schema.Types.ObjectId },
   },
  
-  { collection: "user" }
+ 
 );
 
 const user = mongoose.model("user", UserSchema);

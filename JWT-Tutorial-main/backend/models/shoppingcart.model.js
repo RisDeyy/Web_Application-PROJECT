@@ -8,7 +8,7 @@ const ShoppingCartSchema = new Schema(
     purchasedTime: Date,
   },
  
-  { collection: "shopping-cart" }
+ 
 );
 
 module.exports = mongoose.model("ShoppingCart", ShoppingCartSchema);

@@ -37,10 +37,10 @@ const userController = {
       try{
         const user = await User.findOne({ username: req.body.username });
         if(!user){
-          return  res.status().json("Error");
+          return  res.status(404).json("Error");
         }
         if(user.email===req.body.email){
-          return  res.status().json("please change email");
+          return  res.status(404).json("please change email");
         }
         if(user.email!==req.body.email){
         user.email=req.body.email;
@@ -58,7 +58,7 @@ const userController = {
     try{
       
       const user = await User.findOne({ username: req.body.username });
-    
+    console.log(req.body)
       if (!user) {
         return  res.status().json("Error");
         }
@@ -68,11 +68,11 @@ const userController = {
         );
         if (!validPassword) {
           console.log("wrong password")
-        return  res.status().json("wrong password");
+        return  res.status(404).json("wrong password");
         }
         if(req.body.newpassword===req.body.password){
           console.log("please change password")
-          return  res.status().json("please change password");
+          return  res.status(404).json("please change password");
         }
         if(validPassword && req.body.newpassword !== req.body.oldpassword){
         const salt = await bcrypt.genSalt(10);

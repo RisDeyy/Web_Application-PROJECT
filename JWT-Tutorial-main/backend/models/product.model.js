@@ -15,7 +15,7 @@ const ProductSchema = new Schema(
     url: String,
   },
  
-  { collection: "product" }
+  
 );
 
 const Product = mongoose.model("Product", ProductSchema);

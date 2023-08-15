@@ -38,7 +38,7 @@ const userSlice = createSlice({
             state.account =  action.payload;
         },
 
-        allaccount:(state,action)=>{
+        allAcc:(state,action)=>{
           state.allaccount = action.payload;
         },
         newNotification: (state,action)=>{
@@ -109,7 +109,7 @@ export const {
     notificationSuccess,
     notificationFailed,
     newNotification,
-    allaccount,
+    allAcc,
     Account,
     deleteAcc,
     deleteAccfalse,

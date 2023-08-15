@@ -2,109 +2,83 @@ import DataTable from 'react-data-table-component';
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { createAxios } from "../../createInstance";
+import { loginSuccess } from '../../redux/authSlice';
+import { allProducts} from "../../redux/apiRequest";
+import { saveProduct} from "../../redux/productSlice";
+import { productSucces} from "../../redux/productSlice";
 const  AccUser = () => {
+    
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const product = useSelector((state) => state.product?.product);
+    const Product = useSelector((state) => state.product?.allProducts);
     const [pro,setPro] = useState([]);
-    const [Pending,setPending] = useState(false);
     const [uninput,setUninput] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleYes = async (row) => {
+    let axiosJWT = createAxios(user, dispatch, loginSuccess);
+   
+    const deleteProduct = async  (accessToken, dispatch, id) => {
         try {
-          await axios.delete("/menu/product/checkoutyes/" + row._id);
-          const updatedPro = pro.map(item => {
-            if (item._id === row._id) {
-              return { ...item, status: "Delivering" };
-            }
-            return item;
-          });
-          setPro(updatedPro);
-        } catch (err) {
-          console.log(row._id)
-        }
-      };
-      
-      const handleNo = async (row) => {
-        try {
-          await axios.delete("/menu/product/checkoutno/" + row._id);
-          const updatedPro = pro.map(item => {
-            if (item._id === row._id) {
-              return { ...item, status: "Canceled" };
-            }
-            return item;
-          });
-          setPro(updatedPro);
-        } catch (err) {
+            const res = await axiosJWT.delete("/menu/product/" + id, {
+              headers: { token: `Bearer ${accessToken}` },
+            
+            });
+            const updatedProduct = Product.filter((person) => person._id !== id);
+           await dispatch(productSucces(updatedProduct))
+            setPro(Product);
+          } catch (err) {
+            console.log(err);
           
-        }
+          }
+     
       };
-      
+      const handleDelete = async (id) => {
+        await deleteProduct(user?.accessToken, dispatch, id);
+      };
+        const handleEdit = (row) => {
+          dispatch(saveProduct(row));
+          navigate("/product/update")
+            };
 
     useEffect(() => {
-        setPro(product);
-        
+        setPro(Product);
         if (!user) {
             navigate("/login");
           }
           setUninput(false);
          
-        if(product.length===0){
+        if(Product.lenght===0){
           setUninput(true);
         }
-        },[product]);
+        },[Product]);
 function handleFilter (event){
-    const newdata =product.filter(row=>{
-        return row.numberPhone.toLowerCase().includes(event.target.value.toLowerCase())
+    const newdata =Product.filter(row=>{
+        return row.name.toLowerCase().includes(event.target.value.toLowerCase())
     })
     setPro(newdata)
 }
 const columns = [
-  { name: 'Name', selector: 'name' },
-  { name: 'Phone', selector: 'numberPhone' },
-  { name: 'Address', selector: 'address' },
- 
-  {
-    name: 'Cart',
-    cell: (row) => (
-       
-        <div>
-        {row.products.map((product) => (
-          <div key={product.id}>
-            <div> </div>
-            <div> </div>
-            <div>{product.name}</div>
-            <div>{product.quantity}</div>
-          </div>
-        ))}
-      </div>
-      
-    ),
+  { name: 'Tên sản phẩm', selector: 'name' },
+  { name: 'Chi tiết',
+  cell: (row) => (
+  <div style={{ whiteSpace: 'normal', maxHeight: '100px', overflowY: 'auto' }}>
+        {row.details}
+      </div>),
+  
   },
-  {
-    name:'Total',
-    cell: (row) => {
-        const total = row.products.reduce((acc, product) => acc + product.unitPrice, 0);
-        row.totalPrice = total; 
-        return (
-          <span>{total}</span>
-        );
-      }
-      
-  },
-  {name :'Time',selector:'time'},
-  {name:'Status',selector:'status'},
+  
   {name: 'Actions',
   cell:(row)=>{
-    if(row.status==="Pending" ){
+    
    return (
-   <div>
-        <button onClick={() => handleYes(row)}>Yes</button>
-        <button onClick={() => handleNo(row)}>No</button>
+  
+         <div>
+        <button onClick={() => handleEdit(row)}>Edit</button>
+        <button onClick={() => handleDelete(row._id)}>Delete</button>
       </div>
+      
    )
-    }
+    
   }
     
   },
@@ -119,12 +93,7 @@ return (
       readOnly={uninput}
       onChange={handleFilter}
     />
-    <DataTable columns={columns} data={pro} pagination={true}
-     autoWidth={true}
-  responsive={true}
-  columnWidths={true} 
-  noHeader={true}
-  
+    <DataTable columns={columns} data={pro} pagination
   />
   </div>
 );

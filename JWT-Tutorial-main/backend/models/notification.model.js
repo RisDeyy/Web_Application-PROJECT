@@ -10,7 +10,7 @@ const NotificationSchema = new Schema(
     },
     
     {
-        collection: "notification",
+      
     }
 );
 const Notification = mongoose.model("Notification", NotificationSchema);

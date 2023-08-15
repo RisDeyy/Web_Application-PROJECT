@@ -9,12 +9,16 @@ const userRoute = require("./routes/user");
 const product = require("./routes/product");
 const notification = require("./routes/notification")
 const socketIO = require('socket.io');
+const bodyParser = require("body-parser")
 const Notification = require("./models/notification.model")
+const morgan = require('morgan');
 dotenv.config();
 
 mongoose.connect("mongodb+srv://vuong:vuong19022001@cluster0.o6he2.mongodb.net/organi_shop?retryWrites=true&w=majority", () => {
   console.log("CONNECTED TO MONGO DB");
 });
+app.use(morgan('common'));
+app.use(bodyParser.json({limit:"50mb"}))
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());

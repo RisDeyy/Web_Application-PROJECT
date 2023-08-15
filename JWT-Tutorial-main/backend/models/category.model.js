@@ -8,7 +8,7 @@ const CategorySchema = new Schema(
     listIdProduct: [{ type: mongoose.Schema.Types.ObjectId }],
   },
  
-  { collection: "category" }
+ 
 );
 
 const Category = mongoose.model("Category", CategorySchema);

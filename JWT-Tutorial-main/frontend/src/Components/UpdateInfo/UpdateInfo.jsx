@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UpdataEmail } from "../../redux/apiRequest";
 import { useEffect } from "react";
-
+import { Link} from "react-router-dom";
 const  UpdateInfo= () => {
     
     const user = useSelector((state) => state.auth.login?.currentUser);
@@ -27,19 +27,21 @@ UpdataEmail(user?.accessToken,info,dispatch,axiosJWT,navigate)}
    
   }
     return ( 
-        <section className="register-container">
-        <div className="register-title"> Sign up </div>
-        <form onSubmit={handleUpdate}>
-        <label>USERNAME</label>
+      <div className="main">
+     <p className="sign" align="center">
+         Cập nhật thông tin Admin
+       </p>
+        <section >
+        <form className="form1" onSubmit={handleUpdate}>
           <input
+          className="username"
            disabled = "true"
             type="text"
             value={user?.username}
            
           />
-          <label>EMAIL</label>
           <input
-         
+         className="username"
             type="text"
             placeholder={user?.email}
             onChange={(e)=>setEmail(e.target.value)}
@@ -47,13 +49,18 @@ UpdataEmail(user?.accessToken,info,dispatch,axiosJWT,navigate)}
           
          
           
-          <button type="submit" > Create account </button>
+          <button className="submit" align="center"  type="submit" > Cập nhật </button>  
+          <br></br>
+          <Link className="changepass"  to="/updateinfo/changepass" >Đổi mật khẩu</Link>
         </form>
        
         
          
       </section>
+      </div>
      );
 }
  
 export default UpdateInfo;
+
+

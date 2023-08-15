@@ -1,4 +1,4 @@
-import "./signup.css";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import { registerUser } from "../../redux/apiRequest";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./register.css";
+
 const Register = () => {
  
   
@@ -53,11 +53,15 @@ const Register = () => {
   
   
   return (
-    <div class="App">
+   
+       <div className="mainRe">
+     <p className="sign" align="center">
+         Tạo tài khoản     </p>
     <section>
-    <form className="infoform" onSubmit={formik.handleSubmit}>
-      <label> Your name </label>
+    <form className="form1" onSubmit={formik.handleSubmit}>
+    
       <input
+      className="username" 
         type="text"
         id="name"
         name="name"
@@ -66,10 +70,11 @@ const Register = () => {
         placeholder="Enter your name"
       />
       {formik.errors.name && (
-        <p className="errorMsg"> {formik.errors.name} </p>
+        <p className="errorMsg1"> {formik.errors.name} </p>
       )}
-      <label> Email address </label>
+     <p></p>
       <input
+      className="username" 
         type="email"
         id="email"
         name="email"
@@ -78,10 +83,11 @@ const Register = () => {
         placeholder="Enter your email"
       />
       {formik.errors.email && (
-        <p className="errorMsg"> {formik.errors.email} </p>
+        <p className="errorMsg2"> {formik.errors.email} </p>
       )}
-      <label> Password </label>
+     <p></p>
       <input
+      className="password"
         type="password"
         id="password"
         name="password"
@@ -90,10 +96,11 @@ const Register = () => {
         placeholder="Enter your password"
       />
       {formik.errors.password && (
-        <p className="errorMsg"> {formik.errors.password} </p>
+        <p className="errorMsg3"> {formik.errors.password} </p>
       )}
-      <label> Confirm Password </label>
+    <p></p>
       <input
+      className="password"
         type="password"
         id="confirmedPassword"
         name="confirmedPassword"
@@ -102,10 +109,10 @@ const Register = () => {
         placeholder="Confirm your password"
       />
       {formik.errors.confirmedPassword && (
-        <p className="errorMsg"> {formik.errors.confirmedPassword} </p>
+        <p className="errorMsg4"> {formik.errors.confirmedPassword} </p>
       )}
-     
-      <button type="submit"> Continue </button>
+     <p></p>
+      <button  className="submit" align="center" type="submit"> Continue </button>
     </form>
   </section>
   </div>
@@ -113,4 +120,6 @@ const Register = () => {
 };
 
 export default Register;
+
+
 

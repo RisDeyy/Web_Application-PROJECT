@@ -5,7 +5,7 @@ const OrderSchema = new Schema(
     purchasedDate: Date,
   },
  
-  { collection: "order" }
+ 
 );
 
 const Order = mongoose.model("Order", OrderSchema);

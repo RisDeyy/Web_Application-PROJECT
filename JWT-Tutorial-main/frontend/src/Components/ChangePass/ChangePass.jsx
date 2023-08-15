@@ -25,19 +25,16 @@ const  ChangePass= () => {
         },
         validationSchema: Yup.object({
           newpassword: Yup.string()
-            .required("Required")
-            .matches(
-                /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-                "Password must be 7-19 characters and contain at least one letter, one number and a special character"
-              ),
+            .required("Không được để trống"),
+            
             
           
           password: Yup.string()
-            .required("Required"),
+            .required("Không được để trống"),
             
           confirmedPassword: Yup.string()
-            .required("Required")
-            .oneOf([Yup.ref("newpassword"), null], "Password must match"),
+            .required("Không được để trống")
+            .oneOf([Yup.ref("newpassword"), null], "Mật khẩu không khớp"),
          
         }),
         onSubmit: (values) => {
@@ -46,58 +43,66 @@ const  ChangePass= () => {
             password: values.password,
             newpassword:values.newpassword,
           };
-          changepass(user?.accessToken,newUser,dispatch,axiosJWT)
-          console.log(newUser);
+          changepass(user?.accessToken,newUser,dispatch,axiosJWT,navigate)
+          
         },
       });
     return ( 
-       
+      <div className="mainCPass">
+             <p className="sign" align="center">
+               Đổi mật khẩu
+             </p>
     <section>
-    <form className="infoform" onSubmit={formik.handleSubmit}>
+    <form className="form1" onSubmit={formik.handleSubmit}>
       
       
-      <label> Password </label>
       <input
+      className="password"
         type="password"
         id="password"
         name="password"
         value={formik.values.password}
         onChange={formik.handleChange}
-        placeholder="Enter your password"
+        placeholder="Nhập mật khẩu"
       />
       {formik.errors.password && (
-        <p className="errorMsg"> {formik.errors.password} </p>
+        <p className="errorMsgOld"> {formik.errors.password} </p>
       )}
-      <label> New password </label>
+      <p></p>
       <input
+      className="password"
         type="password"
         id="newpassword"
         name="newpassword"
         value={formik.values.newpassword}
         onChange={formik.handleChange}
-        placeholder="Enter your new password"
+        placeholder="Mật khẩu mới"
       />
       {formik.errors.newpassword && (
-        <p className="errorMsg"> {formik.errors.newpassword} </p>
+        <div className="errorMsgNew"> {formik.errors.newpassword} </div>
       )}
-      <label> Confirm Password </label>
+     <p></p>
+      
       <input
+      className="password"
         type="password"
         id="confirmedPassword"
         name="confirmedPassword"
         value={formik.values.confirmedPassword}
         onChange={formik.handleChange}
-        placeholder="Confirm your password"
+        placeholder="Xác nhận lại mật khẩu mới"
       />
       {formik.errors.confirmedPassword && (
-        <p className="errorMsg"> {formik.errors.confirmedPassword} </p>
+       <div className="errorMsgConfi"> {formik.errors.confirmedPassword}</div> 
       )}
-     
-      <button type="submit"> Continue </button>
+    
+     <p></p>
+      <button className="submit" align="center" type="submit"> Cập nhật </button>
     </form>
   </section>
-  
+  </div>
      );
 }
  
 export default ChangePass;
+

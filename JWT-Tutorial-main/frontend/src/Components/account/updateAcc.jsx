@@ -9,7 +9,7 @@ const UpdateAcc = () => {
   const [email,setEmail] = useState('')
   const [name,setName] = useState('')
   const [address,setAddress] = useState('')
-  const [status,setStatus] = useState('')
+  
   const handleEdit= (e)=>{
     e.preventDefault();
     const info = {
@@ -17,7 +17,7 @@ const UpdateAcc = () => {
       email: email,
      address:address,
       name:name,
-      status:status
+     
     };
    accUp(info,navigate,dispatch);
    

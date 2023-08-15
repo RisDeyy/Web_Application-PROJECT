@@ -2,11 +2,11 @@ import DataTable from 'react-data-table-component';
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AllAccount} from "../../redux/apiRequest";
 import { deleteAccount} from "../../redux/apiRequest";
 import { loginSuccess } from "../../redux/authSlice";
 import {deleteAccfalse} from "../../redux/userSlice";
 import { Account } from "../../redux/userSlice";
+import { allAcc } from '../../redux/userSlice';
 import { createAxios } from "../../createInstance";
 const  AccUser = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
@@ -25,7 +25,8 @@ const  AccUser = () => {
         
         });
         const updatedAccounts = allaccount.filter((person) => person._id !== id);
-        setAcc(updatedAccounts);
+       await dispatch(allAcc(updatedAccounts))
+        setAcc(allaccount);
       } catch (err) {
         console.log(err);
       

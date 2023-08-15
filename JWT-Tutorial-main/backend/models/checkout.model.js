@@ -10,7 +10,7 @@ const CheckOutSchema = new Schema(
     status: { type: String, maxlength: 255 },
   },
   
-  { collection: "check-out" }
+
 );
 
 module.exports = mongoose.model("CheckOut", CheckOutSchema);
