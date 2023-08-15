@@ -3,7 +3,7 @@ const router = Router();
 
 const apiPostcontroller = require("./apiPostcontroller");
 
-router.post("/create-blog-post", apiPostcontroller.createBlogPost);
-router.get("/blog-posts", apiPostcontroller.getBlogPosts);
+router.post("/create-post", apiPostcontroller.createPost);
+router.get("/posts", apiPostcontroller.getPosts);
 
 module.exports = router;

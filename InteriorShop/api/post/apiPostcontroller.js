@@ -1,20 +1,23 @@
-const { Router } = require("express");
-const router = Router();
-const Blog = require("../../models/Blog"); // Sử dụng model cho Blog
+const Blog = require("../../models/Post"); // Sử dụng model cho Blog
+const Comments = require("../../models/Comments");
 
-// Hàm để tạo bài đăng mới trong blog
-exports.createBlogPost = async (req, res) => {
-  const { title, content, author } = req.body;
+// Hàm để tạo bài đăng mới trong post
+exports.Post = async (req, res) => {
+  const { idPost, idAuthor, avatar, author, points, createAt, postTitle, content, listImg, listComments } = req.body;
 
   try {
-    const newBlogPost = new Blog({
-      title: title,
+    const newPost = new Post({
+      idPost: idPost,
+      idAuthor: idAuthor,
+      avatar: avatar,
+      points: points,
+      createAt: createAt,
+      postTitle: postTitle,
       content: content,
       author: author,
     });
-    await newBlogPost.save();
+    return res.status(201).json(newPost);
 
-    return res.status(201).json(newBlogPost);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -25,11 +28,17 @@ exports.createBlogPost = async (req, res) => {
 };
 
 // Hàm để lấy danh sách các bài đăng trong blog
-exports.getBlogPosts = async (req, res) => {
-  try {you
-    const blogPosts = await Blog.find();
+exports.getPosts = async (req, res) => {
+  let perPage = 6,
+    page = Math.max(parseInt(req.param("page")) || 1, 1);
+  if (req.param("page") == null) {
+    page = 1;
+  }
 
-    return res.status(200).json(blogPosts);
+  try {you
+    const Posts = await newPost.find();
+
+    return res.status(200).json(Posts);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
