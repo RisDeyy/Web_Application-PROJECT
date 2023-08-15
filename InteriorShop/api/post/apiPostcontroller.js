@@ -26,7 +26,7 @@ exports.createBlogPost = async (req, res) => {
 
 // Hàm để lấy danh sách các bài đăng trong blog
 exports.getBlogPosts = async (req, res) => {
-  try {
+  try {you
     const blogPosts = await Blog.find();
 
     return res.status(200).json(blogPosts);
