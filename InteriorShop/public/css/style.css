@@ -1425,7 +1425,7 @@ ul, ol {
 .posting__area .posting{
   /* text-align: center; */
   margin-top: 50px;
-  left: 34%
+  left: 36%
 }
 
 .posting__area .posting p{
@@ -1508,9 +1508,9 @@ ul, ol {
   border: none;
   padding: 10px;
   min-height: 40px; 
-  resize: vertical; 
+  /* resize: vertical; 
   overflow: hidden; 
-  outline: none;
+  outline: none; */
   background-color: #f6f0f0;
   border-radius: 5px;
   font-family: inherit;
@@ -1649,6 +1649,25 @@ label{
 
 .btn-closed-PostDetails{
   width: 100%;
+}
+
+.text__box__content{
+  margin-top: 10px;
+  border: none;
+  padding: 10px;
+  min-height: 40px; 
+  /* resize: vertical; 
+  overflow: hidden; 
+  outline: none; */
+  background-color: #f6f0f0;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: small;
+}
+
+.show__post__title{
+  font-family: inherit;
+  font-weight: bold;
 }
 
 

@@ -15,6 +15,8 @@ exports.Post = async (req, res) => {
       postTitle: postTitle,
       content: content,
       author: author,
+      listImg: listImg,
+      listComments: listComments,
     });
     return res.status(201).json(newPost);
 
