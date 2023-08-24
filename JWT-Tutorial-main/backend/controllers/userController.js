@@ -60,7 +60,7 @@ const userController = {
       const user = await User.findOne({ username: req.body.username });
     console.log(req.body)
       if (!user) {
-        return  res.status().json("Error");
+        return  res.status(404).json("Error");
         }
         const validPassword = await bcrypt.compare(
           req.body.password,

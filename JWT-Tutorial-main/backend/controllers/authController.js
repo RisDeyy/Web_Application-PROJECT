@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const Token = require("../models/token");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require('crypto');
 let refreshTokens = [];
 
 const authController = {
@@ -20,7 +22,15 @@ const authController = {
 
       //Save user to DB
       const user = await newUser.save();
-      return res.status(200).json(user);
+      const token = await new Token({
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex"),
+      }).save();
+      const url = `http://localhost:3000/users/${user.id}/verify/${token.token}`;
+      await sendEmail(user.email, "Verify Email", url);
+      res
+			.status(201)
+			.send({ message: "An Email sent to your account please verify" });
     } catch (err) {
      console.log(err);
      return res.status(500).json(err);
@@ -49,12 +59,31 @@ const authController = {
     );
   },
 
+  verifiedemail:async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.params.id });
+      if (!user) return res.status(400).send({ message: "Invalid link" });
+  
+      const token = await Token.findOne({
+        userId: user._id,
+        token: req.params.token,
+      });
+      if (!token) return res.status(400).send({ message: "Invalid link" });
+  
+      await User.updateOne({ _id: user._id, verified: true });
+      await token.remove();
+  
+      res.status(200).send({ message: "Email verified successfully" });
+    } catch (error) {
+      res.status(500).send({ message: "Internal Server Error" });
+    }
+  },
   //LOGIN
   loginUser: async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
       if (!user) {
-        return  res.status().json("Incorrect username or Incorrect password ");
+        return  res.status(404).json("Incorrect username or Incorrect password ");
         }
       
         const validPassword = await bcrypt.compare(
@@ -62,9 +91,26 @@ const authController = {
           user.password
         );
         if (!validPassword) {
-        return  res.status().json(" Incorrect username or Incorrect password");
+        return  res.status(404).json(" Incorrect username or Incorrect password");
         }
+        if (!user.verified) {
+          let token = await Token.findOne({ userId: user._id });
+          if (!token) {
+            token = await new Token({
+              userId: user._id,
+              token: crypto.randomBytes(32).toString("hex"),
+            }).save();
+            const url = `http://localhost:3000/users/${user.id}/verify/${token.token}`;
+            
+           
+            await sendEmail(user.email, "Verify Email", url);
+         
 
+          }
+   
+          return res.status(400).json({ message: "An Email sent to your account please verify" });
+
+        }
 
       
       if (user && validPassword) {
@@ -80,9 +126,11 @@ const authController = {
           sameSite: "strict",
         });
         const { password, ...others } = user._doc;
+        
       return  res.status(200).json({ ...others, accessToken, refreshToken });
       }
     } catch (err) {
+     
     return  res.status(500).json(err);
     }
   },

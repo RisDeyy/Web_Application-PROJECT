@@ -9,9 +9,9 @@ const NotificationSchema = new Schema(
         
     },
     
-    {
-      
-    }
+   
+        {collection :"notification"}
+ 
 );
 const Notification = mongoose.model("Notification", NotificationSchema);
 module.exports = Notification;

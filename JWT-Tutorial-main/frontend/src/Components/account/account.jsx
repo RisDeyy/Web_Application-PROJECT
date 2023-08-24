@@ -2,16 +2,16 @@ import DataTable from 'react-data-table-component';
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { deleteAccount} from "../../redux/apiRequest";
 import { loginSuccess } from "../../redux/authSlice";
-import {deleteAccfalse} from "../../redux/userSlice";
 import { Account } from "../../redux/userSlice";
 import { allAcc } from '../../redux/userSlice';
 import { createAxios } from "../../createInstance";
+import { AllAccount} from "../../redux/apiRequest";
 const  AccUser = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const allaccount = useSelector((state) => state.users?.allaccount);
     const deleteAcc = useSelector((state)=> state.users.deleteAcc)
+   
     const [acc,setAcc] = useState([]);
     const [uninput,setUninput] = useState(false);
     const dispatch = useDispatch();
@@ -41,6 +41,7 @@ const  AccUser = () => {
           };
 
     useEffect(() => {
+      AllAccount( dispatch);
         setAcc(allaccount);
         if (!user) {
             navigate("/login");
@@ -60,6 +61,59 @@ function handleFilter (event){
     })
     setAcc(newdata)
 }
+const handleBlock = async(accessToken, dispatch, data, axiosJWT)=>
+{  
+
+  try {
+    const res = await axiosJWT.post("/v1/user/account/block/",data ,{
+      headers: { token: `Bearer ${accessToken}` },
+    
+    });
+    const targetIndex = allaccount.findIndex(account => account._id === data._id);
+    if (targetIndex !== -1) {
+      const updatedAccount = { ...allaccount[targetIndex], isBlocked: true };
+  
+      
+      const updatedAccounts = [...allaccount];
+      updatedAccounts[targetIndex] = updatedAccount;
+  
+      dispatch(allAcc(updatedAccounts));
+      setAcc(updatedAccounts);
+    } else {
+      console.log("Không tìm thấy người cần thay đổi.");
+    }
+  } catch (err) {
+    console.log(err);
+  
+  }
+}
+const handleUnBlock = async(accessToken, dispatch, data, axiosJWT)=>
+{  
+
+  try {
+    const res = await axiosJWT.post("/v1/user/account/block/",data ,{
+      headers: { token: `Bearer ${accessToken}` },
+    
+    });
+    const targetIndex = allaccount.findIndex(account => account._id === data._id);
+  if (targetIndex !== -1) {
+    const updatedAccount = { ...allaccount[targetIndex], isBlocked: false };
+
+    
+    const updatedAccounts = [...allaccount];
+    updatedAccounts[targetIndex] = updatedAccount;
+
+   
+    dispatch(allAcc(updatedAccounts));
+    setAcc(updatedAccounts);
+  } else {
+    console.log("Không tìm thấy người cần thay đổi.");
+  }
+  } catch (err) {
+    console.log(err);
+  
+  }
+}
 const columns = [
   { name: 'idShoppingCart', selector: 'idShoppingCart' },
   { name: 'Name', selector: 'name' },
@@ -71,6 +125,13 @@ const columns = [
       <div>
         <button onClick={() => handleEdit(row)}>Edit</button>
         <button onClick={() => handleDelete(row._id)}>Delete</button>
+        {
+  row.isBlocked ? (
+    <button onClick={() => handleUnBlock(user?.accessToken, dispatch, row, axiosJWT)}>Mở chặn</button>
+  ) : (
+    <button onClick={() => handleBlock(user?.accessToken, dispatch, row, axiosJWT)}>Chặn</button>
+  )
+}
       </div>
     ),
   },

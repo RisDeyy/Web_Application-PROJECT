@@ -14,11 +14,16 @@ import ProductOrder from "./Components/productOrder/productOrder";
 import Product from "./Components/product/product";
 import UpdatePro from "./Components/product/updatePro";
 import AdminHonme from "./Components/adminhome/adminhome";
+import Category from "./Components/category/category"
+import AddCategory from "./Components/category/addcategory"
+import UpdateCategory from "./Components/category/editCategory"
+import AddProduct from "./Components/product/addproduct"
 import { useSelector } from "react-redux";
 import { createContext} from "react";
 import ReactSwitch from "react-switch";
 import { useDispatch} from "react-redux";
 import { ThemeSetCus } from "./redux/productSlice";
+import EmailVerify from "./Components/EmailVerify/index";
 export const ThemeContext = createContext(null);
 
 
@@ -40,6 +45,7 @@ const edit = !currentUser;
      {!edit &&( <NavBar />)}
       <div className="App"> 
         <Routes>
+        <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
         <Route path="/" element={< AdminHonme />} />
         <Route path="/updateinfo/changepass" element={<ChangePass />} />
         <Route path="/info" element={<Info />} />
@@ -51,7 +57,11 @@ const edit = !currentUser;
           <Route path="/account/update" element={< UppAcc />} />
           <Route path="/productOrder" element={<ProductOrder />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/product/add" element={<AddProduct />} />
           <Route path="/product/update" element={<UpdatePro />} />
+          <Route path="/category" element={<Category/>} />
+          <Route path="/category/add" element={<AddCategory/>} />
+          <Route path="/category/update" element={<UpdateCategory/>} />
         </Routes>
       </div>
     </Router>

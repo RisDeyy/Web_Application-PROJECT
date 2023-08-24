@@ -9,7 +9,7 @@ const CheckOutSchema = new Schema(
     note: { type: String, maxlength: 255 },
     status: { type: String, maxlength: 255 },
   },
-  
+  {collection :"check-out"}
 
 );
 

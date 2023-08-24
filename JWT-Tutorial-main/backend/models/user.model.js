@@ -8,8 +8,9 @@ const UserSchema = new Schema(
     address: String,
     status: Boolean,
     idShoppingCart: { type: Schema.Types.ObjectId },
+    isBlocked:{type: Boolean,default :false}
   },
- 
+  {collection :"user"}
  
 );
 

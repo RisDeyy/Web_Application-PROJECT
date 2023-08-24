@@ -10,7 +10,7 @@ const ProductOrderSchema = new Schema(
     unitPrice: { type: Schema.Types.Number },
   },
 
-  
+  {collection :"product-order"}
 );
 
 module.exports = mongoose.model("ProductOrder", ProductOrderSchema);

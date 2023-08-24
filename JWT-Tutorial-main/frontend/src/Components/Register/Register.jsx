@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState,  useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/apiRequest";
@@ -13,8 +13,13 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
  
- 
+  const user = useSelector((state) => state.auth.login?.currentUser);
   const registerError = useSelector((state) => state.auth.register.error);
+  useEffect(() => {
+    if (!user) {
+        navigate("/login");
+      }
+    },[]);
   const formik = useFormik({
     initialValues: {
       email: "",

@@ -17,7 +17,7 @@ const  AccUser = () => {
     const navigate = useNavigate();
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
    
-    const deleteProduct = async  (accessToken, dispatch, id) => {
+    const deleteProduct = async  (accessToken, dispatch, id, axiosJWT) => {
         try {
             const res = await axiosJWT.delete("/menu/product/" + id, {
               headers: { token: `Bearer ${accessToken}` },
@@ -33,7 +33,7 @@ const  AccUser = () => {
      
       };
       const handleDelete = async (id) => {
-        await deleteProduct(user?.accessToken, dispatch, id);
+        await deleteProduct(user?.accessToken, dispatch, id, axiosJWT);
       };
         const handleEdit = (row) => {
           dispatch(saveProduct(row));
