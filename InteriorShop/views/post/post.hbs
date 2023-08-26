@@ -175,36 +175,19 @@
                     </div>
                 </div>
                 <div class="post__content">
-                    <div class="post__title">
+                    <div class="show__post__title ml-2">
                         Tiêu đề: {{postTitle}} </div>
                     <div class="content">
-                        <div class="text__box" contenteditable="true" id="post-content"></div>
+                        <div class="text__box__content"></div>
                     </div>
-                    <div class="choose__Post__Category">
-                        <div class="form__Post__Category">
-                            <label for="" class="form-label">Chọn Danh Mục</label>
-                            <br>
-                            <select>
-                                <option class="">Hello các con vợ</option>
-                                <option value="">HiHihihiiiihih</option>
-                                <option value="">Anh rất chào emmm</option>
-                            </select>
-                        </div>
-                    </div>
-                    <br>
-                    <div>
-                        <div class="insert-image">
-                            <label for="image-upload" class="custom-file-upload">
-                            Bạn sẽ thêm ảnh vào bài viết chứ? <i class="fa fa-image"></i>
-                            </label>
-                            <input type="file" id="image-upload" multiple>
-                        </div>
-                        <div id="image-preview" class="image-preview"></div>
+
+                    <div class="show__list__images">
+                        {{!-- hiển thị ảnh --}}
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-closed-PostDetails btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
+                <button type="button" class="btn-closed-PostDetails btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue; border-radius: 5px">Đóng</button>
             </div>
         </div>
     </div>
