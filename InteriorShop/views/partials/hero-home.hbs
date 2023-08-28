@@ -8,14 +8,12 @@
             <span>Danh mục</span>
           </div>
             <ul>
-              <li><a href="#">Nội thất đèn trang trí</a></li>
-              <li><a href="#">Nội thất điện tử</a></li>
-              <li><a href="#">Nội thất đồ gỗ</a></li>
-              <li><a href="#">Nội thất salon</a></li>
-              <li><a href="#">Gra, nệm phòng ngủ</a></li>
-              <li><a href="#">Nội thất gia dụng bếp</a></li>
-              <li><a href="#">Nội thất decor, trang trí</a></li>
-            </ul>
+            {{#each category}}
+              <li><a
+                  href="/shop-grid/{{this.idCategory}}"
+                >{{this.name}}</a></li>
+            {{/each}}
+          </ul>
           </div>
       </div>
 
