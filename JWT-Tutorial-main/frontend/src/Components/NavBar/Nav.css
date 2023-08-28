@@ -24,6 +24,7 @@
   top: 0;
   left: -100%;
   transition: 850ms;
+  z-index: 100;
 }
 
 .nav-menu.active {
@@ -76,9 +77,33 @@ span {
   margin-left: 16px;
 }
 #dropdown-basic{
-  
-  
+  border: none; /* Loại bỏ border */
+  background-color: transparent; 
   background: none;
   border: none;
   font-size:25px;
+}
+.container-notification{
+  max-height: 700px;
+  width: 400px;
+  overflow: auto;
+}
+.body-noti{
+  margin: 10px;
+  
+}
+.new-noti{
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+  color: green;
+}
+.selection{
+width:240px;
+font-size:20px;
+
+
+}
+
+.qwe{
+  margin: 10px;
 }

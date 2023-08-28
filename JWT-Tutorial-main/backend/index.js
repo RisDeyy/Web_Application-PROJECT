@@ -9,11 +9,13 @@ const userRoute = require("./routes/user");
 const product = require("./routes/product");
 const notification = require("./routes/notification")
 const category = require("./routes/category")
+const Revenue = require("./routes/revenue-route")
 const socketIO = require('socket.io');
 const bodyParser = require("body-parser")
 const Notification = require("./models/notification.model")
 const Checkout = require("./models/checkout.model")
 const user = require("./models/user.model");
+const revenue = require("./models/revenue.model")
 const morgan = require('morgan');
 
 dotenv.config();
@@ -29,7 +31,16 @@ app.use(express.json());
 const server=app.listen(8000, () => {
   console.log("Server is running");
 });
-
+const reven =  revenue.findOne({ name: "Tổng doanh thu" });
+if (!reven) {
+  db.revenue.insertOne({
+    name: "Tổng doanh thu",
+    sale: 0,
+    total:0,
+    order:0,
+    
+  });
+}
 const io = socketIO(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -55,7 +66,16 @@ io.on('connection', (socket) => {
           title: 'Đặt hàng',
           content: `Khách hàng ${customerName} đã đặt hàng`,
         });
-
+        const reven = await revenue.findOne()
+        if(reven){
+         
+        const Order = reven.order;
+        const newOrder = Order + 1;
+        await revenue.updateOne(
+         {},
+         {order : newOrder }
+        )
+        }
         await newNoti.save();
       } catch (error) {
         console.error('Error:', error);
@@ -96,4 +116,4 @@ app.use("/v1/user", userRoute);
 app.use("/navbar",notification);
 app.use("/menu",product);
 app.use("/menu",category);
-
+app.use("/home",Revenue);

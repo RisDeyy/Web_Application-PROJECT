@@ -130,7 +130,6 @@ const AddCategory = () => {
   const [name, setName] = useState(SaveCategory.name);
   const [imageURL, setImageURL] = useState(SaveCategory.image);
   const [selectedImage, setSelectedImage] = useState(null);
-
   const handleUpdateCategory = async (category,selectedImage) => {
     if (user?.accessToken) {
       try {
@@ -158,7 +157,7 @@ const AddCategory = () => {
       const parts = SaveCategory.image.split(",");
       const base64Data = parts[1];
       const category = {
-        _id: SaveCategory._id,
+        idCategory: SaveCategory.idCategory,
         name: name,
         image: base64Data,
         listIdProduct: SaveCategory.listIdProduct,
@@ -171,7 +170,7 @@ const AddCategory = () => {
       reader.onload = async function (event) {
         const base64Image = event.target.result.split(",")[1];
         const category = {
-          _id: SaveCategory._id,
+          idCategory: SaveCategory.idCategory,
           name: name,
           image: base64Image,
           listIdProduct: SaveCategory.listIdProduct,

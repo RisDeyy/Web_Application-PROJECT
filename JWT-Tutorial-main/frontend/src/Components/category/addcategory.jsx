@@ -5,28 +5,53 @@ import { useNavigate } from "react-router-dom";
 import { createAxios } from "../../createInstance";
 import { loginSuccess } from "../../redux/authSlice";
 import { addCategory } from '../../redux/apiRequest';
+import { addCategoryToState } from '../../redux/categorySlice';
+import slugify from 'slugify';
 const Addcategory = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
+    const addCategorySuccess = useSelector((state)=> state.category.addCategorySuccess)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
     const [name, setName] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
   const [imageURL, setImageURL] = useState(null);
-  const handleAdd = (e) => {
+  function generateRandomNumberString(length) {
+    const characters = '0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+  
+    return result;
+  }
+  const handleAdd =  (e) => {
     e.preventDefault();
     if (selectedImage) {
       const reader = new FileReader();
-      reader.onload = function (event) {
-        const base64Image = event.target.result.split(",")[1]; // Lấy phần dữ liệu base64
+      reader.onload = async function (event) {
+        const idCategory =slugify(name, { lower: true, strict: true })+generateRandomNumberString(6);
+        const base64Image = event.target.result.split(",")[1];
         const category = {
           name: name,
           image: base64Image,
           listIdProduct: [],
+          idCategory : idCategory,
         };
-        
+        const category2 = {
+          name: name,
+          image:`data:image/jpeg;base64,${base64Image}` ,
+          listIdProduct: [],
+          idCategory : idCategory,
+        };
         if (user?.accessToken) {
-          addCategory(navigate, category, axiosJWT, user?.accessToken);
+         await addCategory(navigate, category, axiosJWT, user?.accessToken,dispatch);
+         await new Promise((resolve) => setTimeout(resolve, 0)); 
+         await dispatch( addCategoryToState(category2))
+   
+
         }
       };
       reader.readAsDataURL(selectedImage);
@@ -41,18 +66,19 @@ const Addcategory = () => {
     return ( 
         <div className="main">
         <p className="sign" align="center">
-            Cập nhật thông tin Admin
+            Thêm danh mục
           </p>
            <section >
            <form className="form1" onSubmit={handleAdd}>
              <input
              className="username"
                type="text"
+               placeholder="Tên danh mục" 
                onChange={(e)=>setName(e.target.value)}
               
              />
              <input type="file" accept="image/*" onChange={handleImageChange} />
-                {imageURL && <img src={imageURL} alt="Selected" />}
+                {imageURL && <img src={imageURL} alt="Selected" className="image-preview" />}
            
             
              

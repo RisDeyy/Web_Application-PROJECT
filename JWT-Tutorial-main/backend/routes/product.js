@@ -6,9 +6,9 @@ const {verifyToken} = require("../controllers/verifyToken");
 
 
 
-router.post("/addproduct",Product.addProduct);
+router.post("/addproduct",verifyToken,Product.addProduct);
 router.get("/allproduct",Product.getAllProduct);
-router.delete("/product/:id",verifyToken,Product.deleteProduct);
+router.delete("/product/:idProduct",verifyToken,Product.deleteProduct);
 router.post("/product/update",Product.updateProduct);
 router.get("/productOrder", ProductOrder.getAllCheckout);
 router.delete("/product/checkoutyes/:id",ProductOrder.CheckOutYes);

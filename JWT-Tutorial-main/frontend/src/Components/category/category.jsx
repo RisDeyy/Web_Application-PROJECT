@@ -7,20 +7,29 @@ import { SaveCategory } from '../../redux/categorySlice';
 import { AllproductSucces } from '../../redux/productSlice';
 import axios from "axios";
 import { allProducts } from '../../redux/apiRequest';
+import ReactPaginate from "react-paginate";
+import * as AiIcons from 'react-icons/ai'
+import * as IoIcons from "react-icons/io"
+import "./listproduct.css"
 const Category = () => {
+  
     const [cate,setCate] = useState([]);
+  
     const [uninput,setUninput] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+    const [pageCount, setPageCount] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const allcategory = useSelector((state) => state.category?.allcategory);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const Product = useSelector((state) => state.product?.allProducts);
-
-   const deleteCategary = async  ( dispatch, id) => {
+  
+    const itemsPerPage = 2;
+   const deleteCategary = async  ( dispatch, row) => {
   
       try {
-        const res = await axios.delete("/menu/category/" + id)
-        const updatedCate = allcategory.filter((category) => category._id !== id);
+        const res = await axios.delete("/menu/category/" + row.idCategory)
+        const updatedCate = allcategory.filter((category) => category.idCategory !== row.idCategory);
        await dispatch(GetCategory(updatedCate))
         setCate(allcategory);
         await allProducts(dispatch);
@@ -33,32 +42,45 @@ const Category = () => {
       try {
         await axios.delete("/menu/categoryproduct/" + idpro);
     
-        const updatedCategory =  allcategory.map((category) => {
-          if (category._id === idcate) {
-            const updatedListIdProduct =  category.listIdProduct.filter(
-              (categoryPro) => categoryPro._id !== idpro
+        const updatedCategoryPromises = allcategory.map(async (category) => {
+          if (category.idCategory === idcate) {
+            const updatedListIdProduct = category.listIdProduct.filter(
+              (categoryPro) => categoryPro.idProduct !== idpro
             );
             return { ...category, listIdProduct: updatedListIdProduct };
           }
           return category;
         });
-       const updatedProduct = Product.map((product)=>{
-        if(product._id === idpro){
-         
-          return {...product , categoy:"Trống" }
-        }
-        return product;
-       })
-        await dispatch(GetCategory(updatedCategory));
-        setCate(updatedCategory);
-       await dispatch(AllproductSucces(updatedProduct))
+    
+        const updatedCategories = await Promise.all(updatedCategoryPromises);
+    
+        const updatedProductPromises = Product.map(async (product) => {
+          if (product.idProduct === idpro) {
+            return { ...product, category: "Trống" };
+          }
+          return product;
+        });
+    
+        const updatedProducts = await Promise.all(updatedProductPromises);
+    
+        await dispatch(GetCategory(updatedCategories));
+        setCate(updatedCategories);
+    
+        await dispatch(AllproductSucces(updatedProducts));
       } catch (err) {
         console.log(err);
       }
     };
-    
-    const handleDelete = async (id) => {
-      await deleteCategary( dispatch, id);
+    const handlePageClick = ({ selected }) => {
+      setCurrentPage(selected);
+    };
+    const getCurrentPageData = () => {
+      const startIndex = currentPage * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      return cate.slice(startIndex, endIndex);
+    }; 
+    const handleDelete = async (row) => {
+      await deleteCategary( dispatch, row);
     };
     const handleDeleteProduct = async (idcate,idpro) => {
       await deleteProductCategary( dispatch, idcate,idpro);
@@ -67,11 +89,14 @@ const Category = () => {
       dispatch(SaveCategory(row));
       navigate("/category/update")
         };
+         const handleAdd = (row) => {
+      navigate("/category/add")
+        };
 
 
     useEffect(() => {
-      console.log()
         setCate(allcategory);
+        setPageCount(Math.ceil(allcategory.length / itemsPerPage));
         if (!user) {
             navigate("/login");
           }
@@ -86,6 +111,7 @@ const Category = () => {
         },[allcategory]);
         
 function handleFilter (event){
+  setCurrentPage(0);
     const newdata =allcategory.filter(row=>{
         return row.name.toLowerCase().includes(event.target.value.toLowerCase())
     })
@@ -93,35 +119,43 @@ function handleFilter (event){
 }
 
 const columns = [
-    { name: 'Name', selector: 'name' },
+    { name: 'Tên danh mục', selector: 'name', width: '300px', },
    
     {
-      name: 'Cart',
+      name: 'Sản phẩm', width: '500px',
       cell: (row) => (
          
-          <div>
-          {row.listIdProduct.map((listIdProduct) => (
-            <div key={listIdProduct._id}>
-              <div>{listIdProduct.name}</div>
-              <div>{listIdProduct.quantity}</div>
-              <img src={listIdProduct.image} alt="Product Image" />
-              <div>{listIdProduct.price} </div>
-              <button onClick={() => handleDeleteProduct(row._id,listIdProduct._id)}>Delete</button>
-            </div>
-             
-          ))}
-        </div>
 
-        
+<div>
+{row.listIdProduct.map((listIdProduct) => (
+  <div   key={listIdProduct._id}>
+    <div className='proimg'>
+    <div className='listproduct'>
+    <div className='productName'>{listIdProduct.name}</div>
+    <div className='productItem'>Số lượng: {listIdProduct.quantity}</div>
+    
+    <div className='productItem'>Giá: {listIdProduct.price}đ </div>
+   </div>
+   <img src={listIdProduct.image} alt="Product Image" className="carousel-image" />
+  
+  </div>
+  <AiIcons.AiTwotoneDelete  className='IconCus' onClick={() => handleDeleteProduct(row.idCategory,listIdProduct.idProduct)} />
+  <hr></hr>
+   </div>
+   
+))}
+
+</div>
+
       ),
     },
     {
      
-        name: 'Actions',
+        name: 'Chỉnh sửa', width: '200px',
         cell: (row) => (
           <div>
-            <button onClick={() => handleEdit(row)}>Edit</button>
-            <button onClick={() => handleDelete(row._id)}>Delete</button>
+             < AiIcons.AiFillEdit  className='IconCus' onClick={() => handleEdit(row)}/>
+             <AiIcons.AiTwotoneDelete className='IconCus' onClick={() => handleDelete(row)}/>
           </div>
         ),
       },
@@ -136,7 +170,30 @@ return (
       readOnly={uninput}
       onChange={handleFilter}
     />
-    <DataTable columns={columns} data={allcategory} pagination />
+ <button onClick={() => handleAdd()}><IoIcons.IoMdAddCircle /> <span>Thêm sản phẩm</span> </button>
+    <div  className='table' >
+    <DataTable  columns={columns} data={getCurrentPageData()} 
+     />
+     </div>
+    <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={3}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination justify-content-center"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+      />
   </div>
 );
 }

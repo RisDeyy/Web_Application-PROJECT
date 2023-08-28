@@ -43,6 +43,7 @@ const edit = !currentUser;
     <div className="App" id={themecustem}>
     <Router>
      {!edit &&( <NavBar />)}
+     
       <div className="App"> 
         <Routes>
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />

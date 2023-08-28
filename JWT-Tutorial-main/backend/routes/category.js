@@ -9,6 +9,6 @@ const {
 router.get("/allcategory",category.getAllCategory);
 router.post("/addcategory",verifyToken,category.addCategory);
 router.post("/updatecategory",verifyToken,category.editCategory);
-router.delete("/category/:id",category.deleteCategory);
-router.delete("/categoryproduct/:id",category.deleteProductCategory);
+router.delete("/category/:idCategory",category.deleteCategory);
+router.delete("/categoryproduct/:idProduct",category.deleteProductCategory);
 module.exports = router;

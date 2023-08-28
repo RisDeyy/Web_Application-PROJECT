@@ -2,13 +2,14 @@ import { createAxios } from "../../createInstance";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import {useSpring,animated} from "react-spring"
 import {  getAllUsers } from "../../redux/apiRequest";
-
+import { getRevenue } from "../../redux/apiRequest";
 import { loginSuccess } from "../../redux/authSlice";
 
 const AdminHonme = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
+    const revenue = useSelector((state)=>state.revenue?.revenue)
     const dispatch = useDispatch();
   const navigate = useNavigate();
   let axiosJWT = createAxios(user, dispatch, loginSuccess);
@@ -17,10 +18,11 @@ const AdminHonme = () => {
       navigate("/login");
     }
     if (user?.accessToken) {
+      getRevenue(dispatch);
       getAllUsers(user?.accessToken, dispatch, axiosJWT);
-     
     }
-  }, );
+  },[]);
+  const sale = useSpring({customers:revenue.sale,from:{customers:0}});
     return ( 
         <>
         </>

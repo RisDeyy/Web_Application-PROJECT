@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Token = require("../models/token");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require('crypto');
 const userController = {
   generateAccessToken: (user) => {
     return jwt.sign(
@@ -44,12 +47,29 @@ const userController = {
         }
         if(user.email!==req.body.email){
         user.email=req.body.email;
+        let token = await Token.findOne({ userId: user._id });
+        if (!token) {
+          token = await new Token({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex"),
+          }).save();
+          const url = `http://localhost:3000/users/${user._id}/verify/${token.token}`;
+          try {
+            await sendEmail(user.email, "Verify Email", url);
+         await User.updateOne(
+          {_id:user._id},
+          {verified:false}
+         )
+          } catch (err) {
+            console.log(err);
+          }
+        }
         const accessToken = userController.generateAccessToken(user);
          await user.save();
          const { password, ...others } = user._doc;
       return  res.status(200).json({ ...others, accessToken});}
        }catch (err) {
-        console.log(err);
+     console.log(err)
         return  res.status(500).json(err);
         
     }

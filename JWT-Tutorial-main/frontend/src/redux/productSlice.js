@@ -12,14 +12,33 @@ const productSlice = createSlice({
         allProducts:null,
         //save Product
         saveProduct:null,
+        //add product
+  addpanding:false,
+  addsuccess:false,
+  adderror:false,
         //Theme 
         themecustem:"dark",
     },
     reducers:{
+  
   ThemeSetCus: (state,action)=>{
     state.themecustem = action.payload;
   }  , 
-
+  AddProductStart:(state)=>{
+    state.addpanding = true;
+   },
+   AddProductSuccess:(state)=>{
+     state.addpanding = false;
+     state.addsuccess = true; 
+    },
+    AddProductFaile:(state)=>{
+     state.addpanding = false;
+     state.addsuccess = false; 
+     state.adderror = true;
+    },
+    addProductToState: (state, action) => {
+     state.allProducts.push(action.payload); 
+   },
      saveProduct: (state,action)=>{
        state.saveProduct = action.payload;
      }  , 
@@ -59,6 +78,10 @@ export const {
     AllproductSucces,
     AllproductFaile,
     saveProduct,
+    AddProductStart,
+    AddProductSuccess,
+    AddProductFaile,
+    addProductToState,
     ThemeSetCus
 } = productSlice.actions;
 export default productSlice.reducer;

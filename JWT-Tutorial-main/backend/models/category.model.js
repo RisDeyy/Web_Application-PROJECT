@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema(
   {
     name: { type: String, unique: true },
-    idCategory: String,
+    idCategory: {type: String,unique: true},
     image: String,
     listIdProduct: [{ type: mongoose.Schema.Types.ObjectId ,ref: 'Product'}],
   },
