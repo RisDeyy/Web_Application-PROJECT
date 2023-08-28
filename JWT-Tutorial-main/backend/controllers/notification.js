@@ -17,7 +17,13 @@ const notification={
                   const sortedNotifications = combinedTimeArray.sort((a, b) => {
                     return new Date(b.combinedTime) - new Date(a.combinedTime);
                   });
-                   console.log(sortedNotifications);
+                  if (sortedNotifications.length > 0) {
+                    sortedNotifications.forEach((notification) => {
+                      if (notification.combinedTime === undefined) {
+                        notification.combinedTime = "";
+                      }
+                    });
+                  }
                   res.status(200).json(sortedNotifications);
                 }
               });

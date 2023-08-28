@@ -7,10 +7,11 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {loginFailed} from "../../redux/authSlice"
 import { useFormik } from "formik";
-import { AllAccount} from "../../redux/apiRequest";
+
 import { allProductsOrder} from "../../redux/apiRequest";
 import {allProducts}from "../../redux/apiRequest";
-
+import{getAllCategory} from "../../redux/apiRequest";
+import { Notification } from "../../redux/apiRequest";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -23,8 +24,9 @@ const [error,setError] = useState(false);
   const msg = useSelector((state) => state.auth.msg);
   
   useEffect(()=>{
+    Notification(dispatch);
     allProducts(dispatch);
-    AllAccount( dispatch);
+    getAllCategory(dispatch);
     allProductsOrder(dispatch);
 
 setError(false);
@@ -107,27 +109,5 @@ export default Login;
 
 
 
-// import React from "react";
 
-// function Form() {
-//   return (
-//     <div className="main">
-//       <p className="sign" align="center">
-//         Sign in
-//       </p>
-//       <form className="form1">
-//         <input className="username" type="text" placeholder="Username" />
-//         <input className="password" type="password" placeholder="Password" />
-//         <a className="submit" align="center">
-//           Sign in
-//         </a>
-//         <p className="forgot" align="center">
-//           <a href="#">Forgot Password? </a>
-//         </p>
-//       </form>
-//     </div>
-//   );
-// }
-
-// export default Form;
 

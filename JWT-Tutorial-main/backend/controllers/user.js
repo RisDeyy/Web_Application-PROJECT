@@ -5,6 +5,7 @@ const userAccount = {
     try {
       const accounts = await user.find();
       res.status(200).json(accounts);
+
     } catch (err) {
       res.status(500).json({ error: "Internal server error" });
     }
@@ -39,6 +40,18 @@ const userAccount = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+  blocked: async (req,res) =>{
+    try{
+      await user.updateOne(
+        {_id : req._id},
+        {isBlocked:req.isBlocked}
+        )
+       return   res.status(200).json({ error: "Block or unblock susess" });
+    }
+  catch(err){
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
 };
 
 module.exports = userAccount;

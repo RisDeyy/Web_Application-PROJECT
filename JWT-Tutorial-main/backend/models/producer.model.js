@@ -5,7 +5,7 @@ const ProducerSchema = new Schema(
     name: String,
     listIdProduct: [{ type: Schema.Types.ObjectId }],
   },
- 
+  {collection :"producer"}
   
 );
 

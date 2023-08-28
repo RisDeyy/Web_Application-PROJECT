@@ -83,14 +83,13 @@ const columns = [
     ),
   },
   {
-    name:'Total',
+    name: 'Total',
     cell: (row) => {
         const total = row.products.reduce((acc, product) => acc + product.unitPrice, 0);
-        row.totalPrice = total; 
         return (
           <span>{total}</span>
         );
-      }
+    }
       
   },
   {name :'Time',selector:'time'},

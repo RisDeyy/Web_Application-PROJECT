@@ -13,8 +13,9 @@ const ProductSchema = new Schema(
     idProduct: String,
     listIdRating: [{ type: Schema.Types.ObjectId }],
     url: String,
+   
   },
- 
+  {collection :"product"}
   
 );
 

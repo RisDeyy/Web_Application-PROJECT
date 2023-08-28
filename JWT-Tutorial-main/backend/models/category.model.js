@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const CategorySchema = new Schema(
   {
-    name: String,
+    name: { type: String, unique: true },
     idCategory: String,
     image: String,
-    listIdProduct: [{ type: mongoose.Schema.Types.ObjectId }],
+    listIdProduct: [{ type: mongoose.Schema.Types.ObjectId ,ref: 'Product'}],
   },
- 
+  {collection :"category"}
  
 );
-
+CategorySchema.index({ idCategory: 1 }, { unique: false });
 const Category = mongoose.model("Category", CategorySchema);
 module.exports = Category;

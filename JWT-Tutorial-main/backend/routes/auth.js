@@ -12,6 +12,7 @@ router.post("/refresh", authController.requestRefreshToken);
 router.post("/login", authController.loginUser);
 //LOG OUT
 router.post("/logout",authController.logOut);
-
+//VERIFY EMAIL
+router.get("/:id/verify/:token/",authController.verifiedemail);
 
 module.exports = router;

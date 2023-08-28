@@ -6,7 +6,7 @@ const RatingSchema = new Schema(
     content: String,
   },
   
- 
+  {collection :"rating"}
 );
 
 const Rating = mongoose.model("Rating", RatingSchema);

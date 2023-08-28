@@ -7,7 +7,7 @@ const ShoppingCartSchema = new Schema(
     status: { type: Schema.Types.Boolean },
     purchasedTime: Date,
   },
- 
+  {collection :"shopping-cart"}
  
 );
 

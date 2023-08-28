@@ -42,6 +42,45 @@ import{
     AllproductFaile,
 
 }  from "./productSlice"
+
+import{
+  GetCategory
+} from "./categorySlice"
+export const addCategory = async (navigate,category,axiosJWT,accessToken)=>{
+  try{const res = await axiosJWT.post("/menu/addcategory",category ,{
+    headers: { token: `Bearer ${accessToken}` },
+   
+ });
+ navigate("/category")
+
+  }catch(err){
+    console.log(err)
+  }
+}
+export const updateCategory = async (navigate,category,axiosJWT,accessToken)=>{
+  try{const res = await axiosJWT.post("/menu/updatecategory",category ,{
+    headers: { token: `Bearer ${accessToken}` },
+   
+ });
+ navigate("/category")
+
+  }catch(err){
+    throw err;
+  }
+}
+export const getAllCategory= async  (dispatch)=>{
+  try{
+const res = await axios.get("/menu/allcategory")
+await res.data.map((item)=>(
+  item.image = `data:image/jpeg;base64,${item.image}`
+))
+dispatch(GetCategory(res.data));
+
+  }catch(err){
+console.log(err);
+  }
+}
+
 export const allProducts = async (dispatch)=>{
   dispatch(AllproductStart());
 try{
@@ -84,7 +123,7 @@ export const accUp = async(info,navigate,dispatch) =>{
 export const Notification = async ( dispatch) => {
   dispatch(notificationStart());
   try {
-    const res = await axios.get("/v1/notification/notification");
+    const res = await axios.get("/navbar/notification");
     dispatch(notificationSuccess(res.data));
   } catch (err) {
     dispatch(notificationFailed());
