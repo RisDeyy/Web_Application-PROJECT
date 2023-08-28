@@ -1,20 +1,31 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Post = new Schema(
+const postSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved'],
+    default: 'pending',
+  },
+  comments: [
     {
-        idPost: { type: String, maxlength: 255 },
-        idAuthor: { type: String, maxlength: 255 },
-        avatar : { type: String },
-        author: { type: String, maxlength: 255 },
-        points: { type: Number },
-        createdAt: { type: Date, default: Date.now }, 
-        postTitle: { type: String, maxlength: 255},
-        content: { type: String },
-        listImg : [],
-        listComments: [Schema.Types.ObjectId], // Mảng các ObjectId
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
     },
+  ],
+}, { timestamps: true });
 
-    { collection: "Post" }
-);
+const Post = mongoose.model('Post', postSchema);
 
-module.exports = mongoose.model("Post", Post);
+module.exports = Post;
