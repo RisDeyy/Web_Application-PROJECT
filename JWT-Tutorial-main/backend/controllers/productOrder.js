@@ -4,6 +4,7 @@ const shoppingcart = require("../models/shoppingcart.model");
 const checkout = require("../models/checkout.model")
 const userModel = require("../models/user.model");
 const revenue = require("../models/revenue.model");
+const chart = require("../models/chart.model")
 const ProductOrder = {
     getProductOrder: async (id) => {
         try {
@@ -93,6 +94,14 @@ const ProductOrder = {
         }
         checkoutedit.status = "Delivering";
         await checkoutedit.save();
+        if (!req.body.total ) {
+            req.body.total = 0;
+          }
+      
+        const chartprice = await new chart({
+            revenue:req.body.total
+          });
+          await chartprice.save();
         const user = await userModel.findOne({ email: req.body.email });
         if(user){
         const currentTotal = user.total;
