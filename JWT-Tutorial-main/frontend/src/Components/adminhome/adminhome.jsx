@@ -2,7 +2,7 @@ import { createAxios } from "../../createInstance";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {useSpring,animated} from "react-spring"
+import CountUp from 'react-countup';
 import {  getAllUsers } from "../../redux/apiRequest";
 import { getRevenue } from "../../redux/apiRequest";
 import { loginSuccess } from "../../redux/authSlice";
@@ -22,9 +22,12 @@ const AdminHonme = () => {
       getAllUsers(user?.accessToken, dispatch, axiosJWT);
     }
   },[]);
-  const sale = useSpring({customers:revenue.sale,from:{customers:0}});
+
     return ( 
         <>
+         <div>
+      <CountUp start={0} end={1000} duration={3} />
+    </div>
         </>
      );
 }
