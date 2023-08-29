@@ -3,31 +3,51 @@ const Comments = require("../../models/Comments");
 
 // Hàm để tạo bài đăng mới trong post
 exports.Post = async (req, res) => {
-  const { idPost, idAuthor, avatar, author, points, createAt, postTitle, content, listImg, listComments } = req.body;
+  const {
+    idPost,
+    idAuthor,
+    avatar,
+    author,
+    points,
+    createAt,
+    postTitle,
+    content,
+    listImg,
+    listComments,
+  } = req.body;
 
   try {
     const newPost = new Post({
-      idPost: idPost,
-      idAuthor: idAuthor,
-      avatar: avatar,
-      points: points,
-      createAt: createAt,
-      postTitle: postTitle,
-      content: content,
-      author: author,
-      listImg: listImg,
-      listComments: listComments,
+      idPost,
+      idAuthor,
+      avatar,
+      points,
+      createAt,
+      postTitle,
+      content,
+      author,
+      listImg,
+      listComments,
     });
-    return res.status(201).json(newPost);
 
+    // Lưu bài viết vào MongoDB
+    await newPost.save();
+
+    return res.status(201).json({
+      status: "success",
+      message: "Bài viết đã được tạo thành công",
+      data: newPost,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       status: "fail",
-      message: error.message,
+      message: "Đã xảy ra lỗi trong quá trình tạo bài viết",
+      error: error.message,
     });
   }
 };
+
 
 // Hàm để lấy danh sách các bài đăng trong blog
 exports.getPosts = async (req, res) => {

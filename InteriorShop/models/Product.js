@@ -7,6 +7,7 @@ const Product = new Schema(
     details: { type: String, maxlength: 255 },
     quanlity: { type: String },
     price: { type: Number },
+    pricesale: { type: Number },
     image: { type: String },
    
     category: { type: String, maxlength: 255 },

@@ -128,9 +128,8 @@
                             <label for="" class="form-label">Chọn Danh Mục</label>
                             <br>
                             <select>
-                                <option class="">Hello các con vợ</option>
-                                <option value="">HiHihihiiiihih</option>
-                                <option value="">Anh rất chào emmm</option>
+                                <option value="">Thiết kế nội thất doanh nghiệp</option>
+                                <option value="">Thiết kế nội thất gia đình</option>
                             </select>
                         </div>
                     </div>
@@ -147,7 +146,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" id="posting" data-dismiss="modal" style="background-color:blue;">Đăng</button>
+                <button class="btn btn-secondary" id="posting" style="background-color:blue;">Đăng</button>
                 <button type="button" class="btn btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
             </div>
         </div>
@@ -171,7 +170,7 @@
                     <div class="infor__details">
                         <div class="user__name">{{user.name}}Username</div>
                         <div class="point">{{user.point}}<span>points<i class="fa fa-star"></i></span></div>
-                        <div class="date">{{date}}Ngày chờ Tháng nhớ Năm mong</div>
+                        <div class="date">{{date}}dd/mm/yy</div>
                     </div>
                 </div>
                 <div class="post__content">
@@ -184,6 +183,10 @@
                     <div class="show__list__images">
                         {{!-- hiển thị ảnh --}}
                     </div>
+                    <div class="react__feeling">
+                        <i class="fa fa-thumbs-up"></i>
+                        <i class="fa fa-thumbs-down"></i>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -192,8 +195,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -1670,6 +1670,15 @@ label{
   font-weight: bold;
 }
 
+.react__feeling{
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+  margin-top: 20px;
+  padding: 10px;
+}
+
 
 .filter__item {
   padding-top: 45px;
