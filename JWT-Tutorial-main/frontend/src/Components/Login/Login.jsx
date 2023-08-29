@@ -12,6 +12,8 @@ import { allProductsOrder} from "../../redux/apiRequest";
 import { Notification } from "../../redux/apiRequest";
 import {allProducts}from "../../redux/apiRequest";
 import{getAllCategory} from "../../redux/apiRequest";
+import { getRevenue } from "../../redux/apiRequest";
+import { GetChart } from "../../redux/apiRequest";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -24,6 +26,8 @@ const [error,setError] = useState(false);
   const msg = useSelector((state) => state.auth.msg);
   
   useEffect(()=>{
+    GetChart(dispatch);
+      getRevenue(dispatch);
     Notification(dispatch);
     allProductsOrder(dispatch);
     AllAccount( dispatch);

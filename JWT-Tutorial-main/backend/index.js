@@ -20,7 +20,7 @@ const morgan = require('morgan');
 
 dotenv.config();
 
-mongoose.connect("mongodb+srv://vuong:vuong19022001@cluster0.o6he2.mongodb.net/organi_shop?retryWrites=true&w=majority", () => {
+mongoose.connect("mongodb+srv://RisDeyy:thanhluc2903@changcannang.nudknv1.mongodb.net/Changcannang_Interior_Web", () => {
   console.log("CONNECTED TO MONGO DB");
 });
 app.use(morgan('common'));
@@ -31,14 +31,15 @@ app.use(express.json());
 const server=app.listen(8000, () => {
   console.log("Server is running");
 });
-const reven =  revenue.findOne({ name: "Tổng doanh thu" });
-if (!reven) {
-  db.revenue.insertOne({
+
+const existingRevenue = revenue.findOne({ name: "Tổng doanh thu" });
+
+if (!existingRevenue) {
+  revenue.insertOne({
     name: "Tổng doanh thu",
     sale: 0,
-    total:0,
-    order:0,
-    
+    total: 0,
+    order: 0,
   });
 }
 const io = socketIO(server, {
@@ -87,15 +88,16 @@ io.on('connection', (socket) => {
   const changeStream = Notification.watch();
 
   changeStream.on('change', (change) => {
+    console.log(change)
     if (change.operationType === 'insert' || change.operationType === 'update') {
       const extractedData = {
         id : change._id._data,
-        title: change.fullDocument.username,
-        content: change.fullDocument.email,
-        updatedAt: change.fullDocument.updatedAt || change.fullDocument.createdAt,
+        title: change.fullDocument.title,
+        content: change.fullDocument.content,
+        updatedAt: change.wallTime
       };
 
-      console.log(extractedData);
+     
       io.emit('notification', extractedData); 
     }
   });

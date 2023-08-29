@@ -32,7 +32,7 @@ const Addcategory = () => {
     if (selectedImage) {
       const reader = new FileReader();
       reader.onload = async function (event) {
-        const idCategory =slugify(name, { lower: true, strict: true })+generateRandomNumberString(6);
+        const idCategory =slugify(name, { lower: true, strict: true })+generateRandomNumberString(10);
         const base64Image = event.target.result.split(",")[1];
         const category = {
           name: name,

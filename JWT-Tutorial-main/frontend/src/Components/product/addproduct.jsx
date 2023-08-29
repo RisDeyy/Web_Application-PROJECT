@@ -44,7 +44,7 @@ const AddProduct = () => {
     if (selectedImage) {
       const reader = new FileReader();
       reader.onload = async function (event) {
-        const idProduct =  slugify(name, { lower: true, strict: true })+ generateRandomNumberString(6);
+        const idProduct =  slugify(name, { lower: true, strict: true })+ generateRandomNumberString(10);
         const base64Image = event.target.result;
         if(pricesale===0){
         setPriceSale(null);

@@ -25,7 +25,7 @@ const UpdateAcc = () => {
     try{ 
       const res = await axios.post("/menu/product/update",info)
     const updatedProducts = Product.map(item => {
-      if (item._id === saveProduct._id) {
+      if (item.idProduct === info.idProduct) {
         return {
           ...item,
           details: details,

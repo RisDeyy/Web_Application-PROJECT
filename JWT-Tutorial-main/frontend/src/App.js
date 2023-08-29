@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import HomePage from "./Components/Home/HomePage";
+import AdminList from "./Components/listadmin/listadmin";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
@@ -18,6 +18,7 @@ import Category from "./Components/category/category"
 import AddCategory from "./Components/category/addcategory"
 import UpdateCategory from "./Components/category/editCategory"
 import AddProduct from "./Components/product/addproduct"
+import Chart from "./Components/chart/chart"
 import { useSelector } from "react-redux";
 import { createContext} from "react";
 import ReactSwitch from "react-switch";
@@ -48,10 +49,11 @@ const edit = !currentUser;
         <Routes>
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
         <Route path="/" element={< AdminHonme />} />
+        <Route path="/chart" element={< Chart />} />
         <Route path="/updateinfo/changepass" element={<ChangePass />} />
         <Route path="/info" element={<Info />} />
         <Route path="/updateinfo" element={<UpdateInfo />} />
-          <Route path="/listadmin" element={<HomePage />} />
+          <Route path="/listadmin" element={<AdminList />} />
           <Route path="/login" element={ <Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<AccUser />} />

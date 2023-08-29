@@ -25,6 +25,28 @@ const Category = () => {
     const Product = useSelector((state) => state.product?.allProducts);
   
     const itemsPerPage = 2;
+    const getCurrentPageData = () => {
+    
+      const startIndex = currentPage * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+   
+      return cate.slice(startIndex, endIndex);
+    }; 
+    useEffect(() => {
+     
+        setCate(allcategory);
+        setPageCount(Math.ceil(allcategory.length / itemsPerPage));
+        if (!user) {
+            navigate("/login");
+          }
+          setUninput(false);
+         
+        if(allcategory.length===0){
+          setUninput(true);
+        }
+      
+       
+        },[allcategory]);
    const deleteCategary = async  ( dispatch, row) => {
   
       try {
@@ -74,11 +96,6 @@ const Category = () => {
     const handlePageClick = ({ selected }) => {
       setCurrentPage(selected);
     };
-    const getCurrentPageData = () => {
-      const startIndex = currentPage * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      return cate.slice(startIndex, endIndex);
-    }; 
     const handleDelete = async (row) => {
       await deleteCategary( dispatch, row);
     };
@@ -94,21 +111,7 @@ const Category = () => {
         };
 
 
-    useEffect(() => {
-        setCate(allcategory);
-        setPageCount(Math.ceil(allcategory.length / itemsPerPage));
-        if (!user) {
-            navigate("/login");
-          }
-          setUninput(false);
-         
-        if(allcategory.length===0){
-          setUninput(true);
-        }
-        
-      
-       
-        },[allcategory]);
+   
         
 function handleFilter (event){
   setCurrentPage(0);
@@ -170,7 +173,7 @@ return (
       readOnly={uninput}
       onChange={handleFilter}
     />
- <button onClick={() => handleAdd()}><IoIcons.IoMdAddCircle /> <span>Thêm sản phẩm</span> </button>
+ <button onClick={() => handleAdd()}><IoIcons.IoMdAddCircle /> <span>Thêm danh mục</span> </button>
     <div  className='table' >
     <DataTable  columns={columns} data={getCurrentPageData()} 
      />

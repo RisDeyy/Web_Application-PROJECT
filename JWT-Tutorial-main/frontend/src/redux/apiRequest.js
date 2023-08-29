@@ -53,17 +53,27 @@ import{
 } from "./categorySlice"
 
 import{
-  getRenvenueStart,
+  getRevenueStart,
     getRevenueSucces,
-    getRenvenueError
+    getRevenueError,
+    getChart,
 } from "./revenueSlice"
+export const GetChart = async(dispatch)=>{
+  try{
+    const res = await axios.get("/home/chart")
+    dispatch( getChart(res.data))
+  }catch(err){
+    console.log(err)
+  }
+}
+
 export const getRevenue = async(dispatch)=>{
-  dispatch(getRenvenueStart());
+  dispatch(getRevenueStart());
   try{
 const res = await axios.get("/home/revenue")
 dispatch(getRevenueSucces(res.data))
   }catch(err){
-dispatch(getRenvenueError());
+dispatch(getRevenueError());
   }
 }
 
@@ -205,6 +215,7 @@ export const loginUser = async (user, dispatch, navigate) => {
   try {
     const res = await axios.post("/v1/auth/login", user);
     await  dispatch(loginSuccess(res.data));
+    console.log(res.data)
     navigate("/");
   } catch (err) {
     dispatch(loginFailed(err.response.data));

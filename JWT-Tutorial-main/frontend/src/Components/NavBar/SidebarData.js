@@ -35,6 +35,12 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Đồ thị doanh số',
+    path: '/chart',
+    icon: <AiIcons.AiOutlineAreaChart />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Hỗ trợ',
     path: '/support',
     icon: <IoIcons.IoMdHelpCircle />,

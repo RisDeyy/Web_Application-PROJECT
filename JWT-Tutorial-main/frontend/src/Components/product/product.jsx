@@ -25,7 +25,23 @@ const  AccUser = () => {
     const navigate = useNavigate();
     const itemsPerPage = 8;
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
-   
+    const getCurrentPageData = () => {
+      const startIndex = currentPage * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      return pro.slice(startIndex, endIndex);
+    };    
+    useEffect(() => {
+      setPro(Product);
+      setPageCount(Math.ceil(Product.length / itemsPerPage));
+      if (!user) {
+          navigate("/login");
+        }
+        setUninput(false);
+       
+      if(Product.lenght===0){
+        setUninput(true);
+      }
+      },[Product]);
     const deleteProduct = async  (accessToken, dispatch, product, axiosJWT) => {
         try {
             const res = await axiosJWT.delete("/menu/product/" + product.idProduct, {
@@ -64,27 +80,12 @@ const  AccUser = () => {
             
               navigate("/product/add")
                 };
-       const getCurrentPageData = () => {
-              const startIndex = currentPage * itemsPerPage;
-              const endIndex = startIndex + itemsPerPage;
-              return pro.slice(startIndex, endIndex);
-            };     
+       
       const handlePageClick = ({ selected }) => {
               setCurrentPage(selected);
             };
                  
-    useEffect(() => {
-        setPro(Product);
-        setPageCount(Math.ceil(Product.length / itemsPerPage));
-        if (!user) {
-            navigate("/login");
-          }
-          setUninput(false);
-         
-        if(Product.lenght===0){
-          setUninput(true);
-        }
-        },[Product]);
+   
 function handleFilter (event){
   setCurrentPage(0);
     const newdata =Product.filter(row=>{

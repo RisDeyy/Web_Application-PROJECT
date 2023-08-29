@@ -17,7 +17,7 @@ const Register = () => {
   const registerError = useSelector((state) => state.auth.register.error);
   useEffect(() => {
     if (!user) {
-        navigate("/login");
+       
       }
     },[]);
   const formik = useFormik({

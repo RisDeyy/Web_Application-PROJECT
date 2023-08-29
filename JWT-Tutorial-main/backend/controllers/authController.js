@@ -103,7 +103,7 @@ const authController = {
           const url = `http://localhost:3000/users/${user._id}/verify/${token.token}`;
           try {
             await sendEmail(user.email, "Verify Email", url);
-           res.status(400).json({ message: "An Email sent to your account please verify" });
+           res.status(404).json({ message: "An Email sent to your account please verify" });
           } catch (err) {
             console.log(err);
           }

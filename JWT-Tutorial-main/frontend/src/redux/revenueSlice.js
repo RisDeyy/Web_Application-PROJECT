@@ -1,32 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const revenueSlice = createSlice({
-    name: "revenue",
-    initialState:{
-    panding : false,
+  name: "revenue",
+  initialState: {
+    // revenue
+    pending: false,
     revenue: null,
-    error:false
+    error: false,
+    // chart
+    chart: [],
+  },
+  reducers: {
+    getChart: (state, action) => {
+      state.chart = action.payload;
     },
-    reducer:{
-getRenvenueStart:(state)=>{
-state.panding = true;
-}  ,      
-getRevenueSucces:(state,action)=>{
-state.panding= false;    
-state.revenue = action.payload;
-state.error = false;
-},
-getRenvenueError:(state)=>{
-state.error = true;
-state.panding = false;
+    getRevenueStart: (state) => {
+      state.pending = true;
+    },
+    getRevenueSucces: (state, action) => {
+      state.pending = false;
+      state.revenue = action.payload;
+      state.error = false;
+    },
+    getRevenueError: (state) => {
+      state.error = true;
+      state.pending = false;
+    },
+  },
+});
 
-},
-    },
-})
 export const {
-    getRenvenueStart,
+    getRevenueStart,
     getRevenueSucces,
-    getRenvenueError
-
+    getRevenueError,
+  getChart,
 } = revenueSlice.actions;
+
 export default revenueSlice.reducer;
