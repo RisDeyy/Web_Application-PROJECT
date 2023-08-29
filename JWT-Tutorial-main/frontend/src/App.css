@@ -205,7 +205,89 @@ a {
 #dark .switch label {
   color: white;
 }
-
+.errorMsgConfi{
+  position: absolute;
+  top:38em;
+  left:52em;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+}
+.errorMsgOld{
+  position: absolute;
+  top:23.4em;
+  left:52em;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+}
+.errorMsgNew{
+  position: absolute;
+  top:30.5em;
+  left:52em;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+}.errorMsglogin1{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:29.5em;
+  left:56em;
+  
+}
+.errorMsglogin2{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:35.5em;
+  left:56em;
+  
+}
+.errorMsg1{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:21.5em;
+  left:52em;
+  
+}
+.errorMsg2{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:28.6em;
+  left:52em;
+  
+}
+.errorMsg3{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:36em;
+  left:52em;
+  
+}
+.errorMsg4{
+  position: absolute;
+  max-width: 100%;
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  top:43.5em;
+  left:52em;
+  
+}
 .changepass{
   position: absolute;
   top:32.5em;

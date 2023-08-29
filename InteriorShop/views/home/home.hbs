@@ -26,15 +26,15 @@
         <div class="featured__controls">
           <ul>
             <li class="active" data-filter="*">Tất cả</li>
-            {{!-- {{#each categoryData}}
+            {{#each categoryData}}
             <li data-filter=".{{this.idCategory}}">{{this.name}}</li>
-            {{/each}} --}}
+            {{/each}}
           </ul>
         </div>
       </div>
     </div>
     <div class="row featured__filter">
-      {{!-- {{#each categoryData}}
+      {{#each categoryData}}
       {{#each this.listProduct}}
       <div class="col-lg-3 col-md-4 col-sm-6 mix {{../this.idCategory}}">
         <div class="featured__item">
@@ -56,7 +56,7 @@
         </div>
       </div>
       {{/each}}
-      {{/each}} --}}
+      {{/each}}
 
     </div>
   </div>
@@ -88,16 +88,16 @@
       </div>
     </div>
     <div class="row">
-      {{#each PostData}} 
+      {{#each Post}} 
       <div class="col-lg-4 col-md-4 col-sm-6">
         <div class="post__item">
           <div class="post__item__pic">
-            <img src="{{this.imagePost}}" alt="Post Image">
+            <img src="{{this.image}}" alt="Post Image">
           </div>
           <div class="post__item__text">
             <p>{{this.date}}</p> 
-            <p>{{this.Username}}</p> 
-            <h4>Chủ đề: {{this.topic}}</h4> 
+            <p>{{user.name}}</p> 
+            <h4>Chủ đề: {{this.title}}</h4> 
           </div>
         </div>
       </div>

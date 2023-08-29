@@ -10,6 +10,8 @@ const User = new Schema(
     idShoppingCart: { type: Schema.Types.ObjectId },
     listIdShoppingCartHistory: [{ type: Schema.Types.ObjectId }],
     status: Boolean,
+    isBlocked: { type: Boolean, default: false },
+    bought: { type: Number, default: 0 },
   },
 
   { collection: "user" }

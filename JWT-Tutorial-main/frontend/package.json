@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "babel": {
-    "plugins": [
-      "@babel/plugin-proposal-optional-chaining"
-    ]
+    "plugins": ["@babel/plugin-proposal-optional-chaining"]
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.0",

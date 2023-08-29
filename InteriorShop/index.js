@@ -124,11 +124,6 @@ app.use("/api/shoppingCart", apiShoppingCartRouter);
 
 app.use(userShoppingCart);
 
-const blogRoutes = require("./routes/blogRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-app.use(blogRoutes);
-app.use(adminRoutes);
-
 route(app);
 
 app.use((req, res) => {
