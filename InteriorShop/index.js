@@ -114,8 +114,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(function (req, res, next) {
     res.locals.user = req.user;
-    // res.locals.authenticated = !req.user.anonymous;
-
     next();
 });
 
@@ -125,6 +123,7 @@ app.use("/api/product", apiProductRouter);
 app.use("/api/shoppingCart", apiShoppingCartRouter);
 
 app.use(userShoppingCart);
+
 route(app);
 
 app.use((req, res) => {

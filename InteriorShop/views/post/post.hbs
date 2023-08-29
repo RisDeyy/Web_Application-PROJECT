@@ -128,8 +128,8 @@
                             <label for="" class="form-label">Chọn Danh Mục</label>
                             <br>
                             <select>
+                                <option class="">Thiết kế nội thất gia đình</option>
                                 <option value="">Thiết kế nội thất doanh nghiệp</option>
-                                <option value="">Thiết kế nội thất gia đình</option>
                             </select>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" id="posting" style="background-color:blue;">Đăng</button>
+                <button type="submit" class="btn btn-secondary" id="posting" style="background-color:blue;">Đăng</button>
                 <button type="button" class="btn btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue;">Đóng</button>
             </div>
         </div>
@@ -174,28 +174,47 @@
                     </div>
                 </div>
                 <div class="post__content">
-                    <div class="show__post__title ml-2">
-                        Tiêu đề: {{postTitle}} </div>
+                    <h5 class="post__title font-weight-bold ml-2">
+                        Tiêu đề: {{postTitle}} </h5>
                     <div class="content">
-                        <div class="text__box__content"></div>
+                        <div class="text__box__show">This is post content</div>
                     </div>
+                    <div class="show__images__data">
+                        {{!-- ........code..... --}}
+                    </div>
+                    <div class="react d-flex p-1 mt-3">
+                        <div class="num__of__likes">
+                            <i class="fa fa-thumbs-up"></i> 
+                        </div>
+                        <div class="num__of__dislikes">
+                            <i class="fa fa-thumbs-down"></i> 
+                        </div>
+                        {{!-- <i class="fa fa-comment"></i> --}}
+                    </div>
+                    <div class="comment__section mt-3">
+                        <div class="show__comments" id="show__comments">
+                            {{!-- {{#each}} --}}
+                            <div class="infor__author">
+                                <div class="avatar"><img src="/img/avatar.jpg" alt=""></div>
+                                <div class="user__name">username</div>
+                            </div>
+                            {{!-- {{/each}} --}}
+                        </div>
+                        <div class="add__comment">
 
-                    <div class="show__list__images">
-                        {{!-- hiển thị ảnh --}}
-                    </div>
-                    <div class="react__feeling">
-                        <i class="fa fa-thumbs-up"></i>
-                        <i class="fa fa-thumbs-down"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-closed-PostDetails btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue; border-radius: 5px">Đóng</button>
+                <button type="button" class="btn-closed-PostDetails btn-secondary" id="post-btn" data-dismiss="modal" style="background-color:blue; width: 100%; border-radius: 5px">Đóng</button>
             </div>
         </div>
     </div>
 </div>
 
+
+{{!-- click vào phần 'Chia sẻ thiết kế của bạn ở đây....' sẽ hiện ra modal đăng bài--}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const postingArea = document.getElementById('posting__area');
@@ -205,7 +224,7 @@
     });
 
 </script>
-
+{{!-- click vào một post-box sẽ hiện ra modal show chi tiết bài viết --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const postingArea = document.getElementById('post-item');
@@ -247,7 +266,7 @@
         })
     })
 </script>
-
+{{!-- phần này là độ dài posting area sẽ tự điều chỉnh chiều cao theo đồ dài văn bản :D --}}
 <script>
     const textBox = document.getElementById('post-content');
     textBox.addEventListener('input', function () {
@@ -263,7 +282,7 @@
         }
     }
 </script>
-
+{{!-- show các ảnh đã chọn --}}
 <script>
     document.getElementById("image-upload").addEventListener("change", function(event) {
     const imagePreview = document.getElementById("image-preview");
@@ -282,6 +301,29 @@
     });
 
 </script>
+{{!-- reset data sau khi bấm nút đăng --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const postTitleInput = document.getElementById("post-title");
+        const postContentDiv = document.getElementById("post-content");
+        const postCategorySelect = document.querySelector(".choose__Post__Category select");
+        const imageUploadInput = document.getElementById("image-upload");
+        const imagePreviewDiv = document.getElementById("image-preview");
+        const postingButton = document.getElementById("posting");
+        const modal = new bootstrap.Modal(document.getElementById("myModal"));
+
+        postingButton.addEventListener("click", function() {
+
+            postTitleInput.value = "";
+            postContentDiv.innerHTML = "";
+            postCategorySelect.selectedIndex = 0;
+            imageUploadInput.value = "";
+            imagePreviewDiv.innerHTML = "";
+
+        });
+    });
+</script>
+
 
 
 

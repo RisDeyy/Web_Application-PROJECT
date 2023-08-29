@@ -7,16 +7,23 @@ import { Account } from "../../redux/userSlice";
 import { allAcc } from '../../redux/userSlice';
 import { createAxios } from "../../createInstance";
 import { AllAccount} from "../../redux/apiRequest";
+import ReactPaginate from "react-paginate";
+import * as AiIcons from 'react-icons/ai'
+import * as ImIcons  from "react-icons/im"
+import * as TbIcons from "react-icons/tb"
 const  AccUser = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const allaccount = useSelector((state) => state.users?.allaccount);
     const deleteAcc = useSelector((state)=> state.users.deleteAcc)
    
     const [acc,setAcc] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const [pageCount, setPageCount] = useState(0);
     const [uninput,setUninput] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
+    const itemsPerPage = 10;
     const deleteAccount = async  (accessToken, dispatch, id, axiosJWT) => {
   
       try {
@@ -41,8 +48,8 @@ const  AccUser = () => {
           };
 
     useEffect(() => {
-      AllAccount( dispatch);
         setAcc(allaccount);
+        setPageCount(Math.ceil(allaccount.length / itemsPerPage));
         if (!user) {
             navigate("/login");
           }
@@ -56,6 +63,7 @@ const  AccUser = () => {
        
         },[allaccount]);
 function handleFilter (event){
+  setCurrentPage(0);
     const newdata =allaccount.filter(row=>{
         return row.name.toLowerCase().includes(event.target.value.toLowerCase())
     })
@@ -114,30 +122,51 @@ const handleUnBlock = async(accessToken, dispatch, data, axiosJWT)=>
   
   }
 }
+const getCurrentPageData = () => {
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return acc.slice(startIndex, endIndex);
+};     
+const handlePageClick = ({ selected }) => {
+  setCurrentPage(selected);
+};
 const columns = [
-  { name: 'idShoppingCart', selector: 'idShoppingCart' },
-  { name: 'Name', selector: 'name' },
-  { name: 'Email', selector: 'email' },
-  { name: 'Address', selector: 'address' },
+  { name: 'idShoppingCart', selector: 'idShoppingCart',width:"300px" },
+  { name: 'Name', selector: 'name' ,width: "150px" },
+  { name: 'Email', selector: 'email',width:"250x"  },
+  { name: 'Address', selector: 'address' ,width:"400px" },
   {
-    name: 'Actions',
+    name: 'Actions',width: "150px",
     cell: (row) => (
       <div>
-        <button onClick={() => handleEdit(row)}>Edit</button>
-        <button onClick={() => handleDelete(row._id)}>Delete</button>
+        < AiIcons.AiFillEdit  className='IconCus' onClick={() => handleEdit(row)}/>
+        <AiIcons.AiTwotoneDelete className='IconCus' onClick={() => handleDelete(row._id)}/>
         {
   row.isBlocked ? (
-    <button onClick={() => handleUnBlock(user?.accessToken, dispatch, row, axiosJWT)}>Mở chặn</button>
+    < TbIcons.TbLockOpen className='IconCus' onClick={() => handleUnBlock(user?.accessToken, dispatch, row, axiosJWT)}/>
   ) : (
-    <button onClick={() => handleBlock(user?.accessToken, dispatch, row, axiosJWT)}>Chặn</button>
+    < ImIcons.ImBlocked  className='IconCus' onClick={() => handleBlock(user?.accessToken, dispatch, row, axiosJWT)}/>
+   
   )
 }
       </div>
     ),
   },
 ];
-       
-      
+
+const customStyles = {
+  rows: {
+    style: {
+      backgroundColor: '#f5f5f5', // Màu nền cho các dòng
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: '#e0e0e0', // Màu nền cho tiêu đề cột
+      color: '#333', // Màu chữ cho tiêu đề cột
+    },
+  },
+};
 return (
   <div>
     <input
@@ -146,7 +175,28 @@ return (
       readOnly={uninput}
       onChange={handleFilter}
     />
-    <DataTable columns={columns} data={acc} pagination />
+    <div className='table'>
+    <DataTable  columns={columns} data={getCurrentPageData()} customStyles={customStyles} />
+    </div>
+    <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={3}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination justify-content-center"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+      />
   </div>
 );
 }

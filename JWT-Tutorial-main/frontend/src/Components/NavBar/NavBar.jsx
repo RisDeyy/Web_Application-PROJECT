@@ -150,6 +150,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Toast from 'react-bootstrap/Toast';
 import { SidebarData } from './SidebarData';
 import { IconContext } from 'react-icons';
 import *  as PiIcons from 'react-icons/pi'
@@ -217,21 +218,30 @@ const NavBar = () => {
       {count.length >0 &&
             <div className="counter">{count.length}</div>
           }
-      <Dropdown.Menu>
+      <Dropdown.Menu className="container-notification">
+     
       {newNoti && newNoti.map(newnoti => (
   <div key={newnoti.id}>
-    <p>{newnoti.title}</p>
-    <p>{newnoti.content}</p>
-    <p><span>vào lúc</span> {newnoti.updatedAt}</p>
+    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+          <strong className="me-auto">{newnoti.title} <span className="new-noti">mới</span> </strong>
+          <small className="text-muted"><span>vào lúc</span> {newnoti.updatedAt}</small>
+      
+        <Toast.Body className="body-noti" >{newnoti.content}</Toast.Body>
+        <hr></hr>
   </div>
+  
 ))}
          <NavDropdown.Divider />
          {notification.map(noti => (
           <div key={noti._id}>
-            <p>{noti.title}</p>
-            <p>{noti.content}</p>
-            <p><span>vào lúc</span> {noti.combinedTime}</p>
+          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+          <strong className="me-auto">{noti.title}</strong>
+          <small className="text-muted"><span>vào lúc</span> {noti.combinedTime}</small>
+      
+        <Toast.Body className="body-noti" >{noti.content}</Toast.Body>
+        <hr></hr>
           </div>
+          
         ))}
         
       </Dropdown.Menu>
@@ -242,24 +252,25 @@ const NavBar = () => {
       <PiIcons.PiFinnTheHumanFill/>
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-      <div>
-                <Link to="/info" > Thông tin admin</Link>
+      <Dropdown.Menu className="selection">
+        
+      <div  className="qwe">
+                <Link   style={{ color: "black" }} to="/info" >  <strong className="me-auto">Thông tin admin</strong> </Link>
                 </div>
-                <div>
-                <Link to="/updateinfo" > Cập nhật tài khoản</Link>
+                <div className="qwe">
+                <Link   style={{ color: "black" }} to="/updateinfo" > <strong className="me-auto">Cập nhật tài khoản</strong></Link>
                 </div>
-              <div>
-                <Link to="/listadmin" > Danh sách admin</Link>
+              <div className="qwe">
+                <Link  style={{ color: "black" }} to="/listadmin" > <strong className="me-auto">Danh sách admin</strong></Link>
                 </div>
 
-                <div>
-                <Link to="/register" > Đăng ký tài khoản admin</Link>
+                <div className="qwe"> 
+                <Link  style={{ color: "black" }} to="/register" ><strong className="me-auto">Đăng ký tài khoản admin</strong> </Link>
                 </div>
               <NavDropdown.Divider />
               
-                <div>
-              <Link to="/logout" onClick={handleLogout}> Đăng xuất</Link>
+                <div className="qwe"> 
+              <Link style={{ color: "black" }} to="/logout" onClick={handleLogout}><strong className="me-auto">Đăng xuất</strong> </Link>
               </div>
               
         

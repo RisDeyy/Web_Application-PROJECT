@@ -29,23 +29,30 @@ setEmail(account.email);
   },[])
   
     return (
-      <section className="register-container">
-        <div className="register-title"> Sign up </div>
-        <form onSubmit={handleEdit}>
-        <label>Username</label>
+      <div className="main">
+     <p className="sign" align="center">
+        Chỉnh sửa thông tin người dùng
+       </p>
+      <section >
+        
+        <form className="form1" onSubmit={handleEdit}>
+       
           <input
+           className="username"
             type="text"
             value={name}
             onChange={(e)=>setName(e.target.value)}
           />
-          <label>Email</label>
+          
           <input
+           className="username"
             type="text"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
           />
-          <label>Adress</label>
+          
           <input
+           className="username"
             type="text"
             value={address}
             onChange={(e)=>setAddress(e.target.value)}
@@ -54,12 +61,13 @@ setEmail(account.email);
           
          
           
-          <button type="submit" > Create account </button>
+          <button className="submit" align="center" type="submit" > Cập nhật</button>
         </form>
        
         
          
       </section>
+      </div>
     );
   
 }

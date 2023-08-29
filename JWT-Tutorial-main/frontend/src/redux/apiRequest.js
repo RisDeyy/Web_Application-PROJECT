@@ -40,20 +40,44 @@ import{
   AllproductStart,
     AllproductSucces,
     AllproductFaile,
-
+    AddProductStart,
+    AddProductSuccess,
+    AddProductFaile,
 }  from "./productSlice"
 
 import{
-  GetCategory
+  GetCategory,
+  AddCategoryStart,
+  AddCategorySuccess,
+  AddCategoryFaile,
 } from "./categorySlice"
-export const addCategory = async (navigate,category,axiosJWT,accessToken)=>{
+
+import{
+  getRenvenueStart,
+    getRevenueSucces,
+    getRenvenueError
+} from "./revenueSlice"
+export const getRevenue = async(dispatch)=>{
+  dispatch(getRenvenueStart());
+  try{
+const res = await axios.get("/home/revenue")
+dispatch(getRevenueSucces(res.data))
+  }catch(err){
+dispatch(getRenvenueError());
+  }
+}
+
+export const addCategory = async (navigate,category,axiosJWT,accessToken,dispatch)=>{
+  dispatch(AddCategoryStart());
   try{const res = await axiosJWT.post("/menu/addcategory",category ,{
     headers: { token: `Bearer ${accessToken}` },
    
  });
+ dispatch(AddCategorySuccess())
  navigate("/category")
 
   }catch(err){
+    dispatch(AddCategoryFaile())
     console.log(err)
   }
 }
@@ -62,6 +86,7 @@ export const updateCategory = async (navigate,category,axiosJWT,accessToken)=>{
     headers: { token: `Bearer ${accessToken}` },
    
  });
+ 
  navigate("/category")
 
   }catch(err){
@@ -75,6 +100,7 @@ await res.data.map((item)=>(
   item.image = `data:image/jpeg;base64,${item.image}`
 ))
 dispatch(GetCategory(res.data));
+console.log(res.data)
 
   }catch(err){
 console.log(err);
@@ -91,7 +117,19 @@ try{
  dispatch(AllproductFaile());
 }
 }
-
+export const addProduct = async (navigate,product,axiosJWT,accessToken,dispatch)=>{
+  dispatch(AddProductStart());
+  try{const res = await axiosJWT.post("/menu/addproduct",product ,{
+    headers: { token: `Bearer ${accessToken}` },
+   
+ });
+ dispatch(AddProductSuccess())
+ navigate("/product")
+  }catch(err){
+    dispatch(AddProductFaile())
+    console.log(err)
+  }
+}
 export const allProductsOrder = async (dispatch)=>{
      dispatch(productStart());
   try{

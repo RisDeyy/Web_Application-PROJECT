@@ -16,7 +16,7 @@ const Product = {
       }
    return   res.status(200).json(saveProduct);
    }catch(err){
-
+    console.log(err)
       return res.status(500).json(err)
     }
   },
@@ -33,12 +33,12 @@ const Product = {
 
   deleteProduct: async (req,res)=>{
     try {
-      await category.updateMany({listIdProduct: req.params.id},{$pull:{listIdProduct: req.params.id}})
-        const deletedProduct = await productModel.findByIdAndRemove(req.params.id);
-        if (!deletedProduct) {
-        
-          return res.status(404).json({ error: "Product not found" });
-        }
+      const product = await productModel.findOne({idProduct: req.params.idProduct})
+      if(!product){
+        return res.status(404).json({ error: "Product not found" });
+      }
+      await category.updateMany({listIdProduct: product._id},{$pull:{listIdProduct: product._id}})
+      await product.remove();
       return  res.status(200).json({ message: "Product deleted successfully" });
       } catch (err) {
       return  res.status(500).json({ error: "Internal server error" });
@@ -46,7 +46,7 @@ const Product = {
     },
     updateProduct: async (req, res) => {
       try {
-        const Product = await productModel.findById(req.body._id);
+        const Product = await productModel.findOne({idProduct:req.body.idProduct});
         if (!Product) {
           
           return res.status(404).json({ error: "Product not found" });
@@ -57,7 +57,7 @@ const Product = {
         Product.quantity=req.body.quantity,
         Product.image=req.body.image,
         Product.listImgExtra=req.body.listImgExtra
-
+        Product.pricesale = req.body.pricesale
           try {
             if (req.body.category) {
               const cate = await category.findOne({ name: req.body.category });
@@ -66,12 +66,12 @@ const Product = {
                 
                 await category.updateOne(
                   { _id: cate._id },
-                  { $addToSet: { listIdProduct: req.body._id } }
+                  { $addToSet: { listIdProduct: Product._id } }
                 );
                 Product.category=req.body.category
                 await category.updateMany(
-                  { _id: { $ne: cate._id }, listIdProduct: req.body._id },
-                  { $pull: { listIdProduct: req.body._id } }
+                  { _id: { $ne: cate._id }, listIdProduct: Product._id },
+                  { $pull: { listIdProduct: Product._id } }
                 );
               } else {
                

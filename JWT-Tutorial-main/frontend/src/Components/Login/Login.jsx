@@ -7,11 +7,11 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {loginFailed} from "../../redux/authSlice"
 import { useFormik } from "formik";
-
+import { AllAccount } from "../../redux/apiRequest";
 import { allProductsOrder} from "../../redux/apiRequest";
+import { Notification } from "../../redux/apiRequest";
 import {allProducts}from "../../redux/apiRequest";
 import{getAllCategory} from "../../redux/apiRequest";
-import { Notification } from "../../redux/apiRequest";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -25,10 +25,10 @@ const [error,setError] = useState(false);
   
   useEffect(()=>{
     Notification(dispatch);
+    allProductsOrder(dispatch);
+    AllAccount( dispatch);
     allProducts(dispatch);
     getAllCategory(dispatch);
-    allProductsOrder(dispatch);
-
 setError(false);
   },[])
   const formik = useFormik({
@@ -66,7 +66,7 @@ setError(false);
   return (
      <div className="main">
       <p className="sign" align="center">
-        Sign in
+       Đăng nhập
       </p>
     <section>
     <form className="form1" onSubmit={formik.handleSubmit}>

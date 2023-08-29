@@ -6,11 +6,12 @@ const ProductSchema = new Schema(
     details: String,
     quantity: Number,
     price: Number,
+    pricesale:Number,
     image: String,
     listImgExtra: [],
     category: String,
     producer: String,
-    idProduct: String,
+    idProduct:{type: String,unique: true,maxlength:255},
     listIdRating: [{ type: Schema.Types.ObjectId }],
     url: String,
    

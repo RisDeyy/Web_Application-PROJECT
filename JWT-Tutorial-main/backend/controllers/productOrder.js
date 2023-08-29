@@ -3,19 +3,28 @@ const productOrder = require("../models/productOrder.model");
 const shoppingcart = require("../models/shoppingcart.model");
 const checkout = require("../models/checkout.model")
 const userModel = require("../models/user.model");
+const revenue = require("../models/revenue.model");
 const ProductOrder = {
     getProductOrder: async (id) => {
-        try { 
-            const order = await productOrder.findById(id);
-            if (!order) {
-                throw new Error(`ProductOrder not found with ID ${id}`);
-            }
-            return order;
+        try {
+          const order = await productOrder.findById(id);
+      
+          if (!order) {
+            throw new Error(`ProductOrder not found with ID ${id}`);
+          }
+      
+          if (order.pricesale !== 0) {
+          
+            order.price = order.pricesale;
+          }
+      
+          return order;
         } catch (err) {
-            console.log(err);
-            throw err; 
+          console.log(err);
+          throw err;
         }
-    },
+      },
+      
     
 
     getShoppingCart: async (id) => {
@@ -84,6 +93,27 @@ const ProductOrder = {
         }
         checkoutedit.status = "Delivering";
         await checkoutedit.save();
+        const user = await userModel.findOne({ email: req.body.email });
+        if(user){
+        const currentTotal = user.total;
+        const newTotal = currentTotal + req.body.total; 
+        await userModel.updateOne(
+          { email:req.body.email },
+          { $set: { total: newTotal } }
+        );
+    }
+       const reven = await revenue.findOne()
+       if(reven){
+        const SaleTotal = reven.total;
+        const newSaleTotal = SaleTotal + req.body.total;
+       const Sales = reven.sale;
+       const newSale = Sales + 1;
+       await revenue.updateOne(
+        {},
+        {total:newSaleTotal,
+         sale: newSale }
+       )
+       }
         res.status(200).json({ message: "Account deleted successfully" });
       } catch (err) {
         console.log(err)
